@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>js跨域之jsonp方式 | 送你回家</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  
+  <meta name="description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS跨域之JSONP方式">
+<meta property="og:url" content="http://yoursite.com/2018/04/20/JS跨域之JSONP方式/index.html">
+<meta property="og:site_name" content="送你回家">
+<meta property="og:description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。一">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-636780d70a19dd22?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-26T07:58:28.277Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS跨域之JSONP方式">
+<meta name="twitter:description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。一">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="送你回家" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-JS跨域之JSONP方式" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      JS跨域之JSONP方式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/04/20/JS跨域之JSONP方式/" class="article-date">
+	  <time datetime="2018-04-19T16:00:00.000Z" itemprop="datePublished">2018-04-20</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/JS/">JS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/16 晴天"></p>
+<p><center>本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~</center></p>
+<h4 id="同源策略"><a href="#同源策略" class="headerlink" title=" 同源策略"></a><center> 同源策略</center></h4><p>要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。<br>一些常见的是否同源示例可参照下表：<br><img src="http://upload-images.jianshu.io/upload_images/8542482-636780d70a19dd22?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>在同源策略下，在某个服务器下的页面是无法获取到该服务器以外的数据的。例如我们在自己的网站通过ajax去获取豆瓣提供的接口数据。即使是访问本地非JS文件的文件（比如.json文件）.</p>
+<p><strong><em>不过火狐可以正常读取到</em></strong>，原因是：虽然允许跨域很不安全，但是如果不跨域的话又带来很多不便，所以火狐是允许跨域的。</p>
+<p>为什么<strong><em>谷歌获取不到？</em></strong></p>
+<p>这里要提到一点，访问本地计算机中的文件，使用的是<strong><em>file协议</em></strong>，file协议主要用来访问本地计算机中的文件，就如同在windows资源管理器中打开文件一样，注意它是针对本地（本机）的，简单来说，file协议是访问你本机的文件资源。<br>谷歌的报错可以在控制台明显看到：</p>
+<p><code>Cross origin requests are only supported for protocol schemes:http，data，chrome，chrome-extension，https</code></p>
+<p>实质上就是安全机制认为加载本地其他文件是跨域行为。谷歌浏览器会跨域失败，是因为浏览器安全机制不允许。</p>
+<p><strong><em>为什么谷歌不支持跨域？</em></strong><br>这是因为浏览器的安全策略，即禁止ajax访问本地的文件，这是不安全也是不允许的，举例的话，就相当于你访问了一个网站，这个网站可以读取到你本地的文件…….</p>
+<h4 id="跨域问题"><a href="#跨域问题" class="headerlink" title=" 跨域问题"></a><center> 跨域问题</center></h4><p>Chrome真的很严格，对于Chrome来说，访问本地非js文件或者非同源地址都属于跨域行为，而火狐可以访问本地文件，但是访问非同源地址时还是跨域的行为。<br>这类问题统称为跨域问题。</p>
+<h4 id="JSON"><a href="#JSON" class="headerlink" title=" JSON"></a><center> JSON</center></h4><p>JSON是一种数据存储格式，不懂得朋友可以自行<a href="https://www.baidu.com/" target="_blank" rel="noopener">百度</a>一下~</p>
+<h4 id="JSONP的原理"><a href="#JSONP的原理" class="headerlink" title=" JSONP的原理"></a><center> JSONP的原理</center></h4><p>JSONP是JSON的一种“使用模式”，可用于解决主流浏览器的跨域数据访问的问题，利用 script 元素的开放策略，网页可以得到从其他来源动态产生的JSON资料，而这种使用模式就是所谓的JSONP。用JSONP抓到的资料并不是JSON，而是任意的JAVAScript，用javascript直译器执行而不是用JSON解析器解析。</p>
+<p>动态创建 script 标签，设置其src，回调函数也在src中设置，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;(http://....其他域地址)/(文件地址)?(可以写查询内容)&amp;(callback=(回调函数的名称))&quot;&gt;</span><br><span class="line">                          ||</span><br><span class="line"> &lt;script src=&quot;index.json?callback=indexDemo&quot;&gt;</span><br><span class="line">或者</span><br><span class="line">&lt;script src=&quot;https://api.douban.com/va/book/search?q=javascript&amp;count=1&amp;callback=handleResponse&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在页面中，返回的JSON作为参数传入回调函数中，我们通过回调函数来操作数据。<br>这里需要注意的是，JSON文件中的数据格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">这里json数据前面的名称要和第一条script标签中的callback里的函数名称一样</span><br><span class="line">indexDemo(&#123;</span><br><span class="line">&quot;hello&quot;:&quot;bye&quot;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>用过该方法的朋友会发现JSON文件会报错，先别着急否定这个方法，先读一遍下面这段话~（诡异脸）</p>
+<p>根据上述过程总结的话，JSONP的原理如下：</p>
+<ul>
+<li>首先在客户端注册一个callback，然后把callback的名字传给服务器。</li>
+<li>此时服务器先生成JSON数据</li>
+<li>然后以JS语法的方式，生成一个function，function名字就是传递上来的参数jsonp</li>
+<li>最后将json数据直接以入参的方式，放置到function中，这样就生成了一段Js语法的文档，返回给客户端。</li>
+<li>客户端浏览器，解析script标签，并执行返回的Js文档，此时数据作为参数，传入到了客户端预先定义好的callback函数里。</li>
+</ul>
+<p>看到这里，会不会有一种焕然大悟的感觉~原来.json文件中放置的是一个函数，只有是函数，才可以将json数据以入参的方式，放置到function中。</p>
+<h4 id="JSONP的优缺点"><a href="#JSONP的优缺点" class="headerlink" title=" JSONP的优缺点"></a><center> JSONP的优缺点</center></h4><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>比XML轻了很多，没有那么多冗余的东西。</li>
+<li>JSON具有很好的可读性，但是通常返回的都是压缩过后的，不像XML这样的浏览器可以直接显示，浏览器对于JSON的格式化显示就需要借助一些插件了。</li>
+<li>在JS中处理JSON很简单</li>
+<li>其他语言，例如PHP对于JSON的支持也不错</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>JSON在服务端语言的支持不像XML那么广泛，不过JSON.org上提供很多语言的库（我并不懂这句话，以后再做研究）</li>
+<li>如果你使用eval（）来解析的话，会容易出现安全问题（依旧不懂，以后遇到再来补充~）</li>
+</ul>
+<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h4><p>JSONP是很强大的，但不是所有跨域通信需求的万灵药，还是建议可以学会使用node或其他后端语言来配合完成跨域的方法~（虽然我也还没学会，学会就会更新在博客里）</p>
+<p>第一，也是最重要的一点，没有关于JSONP调用的错误处理，如果动态脚本插入有效，就执行调用；如果无效，就静默失败。失败是没有任何提示的，服务器既不会捕捉到404错误，也不会取消或者重新开始请求。</p>
+<p>第二，被不信任的服务使用时会很危险，因为JSONP服务返回打包在函数调用中的JSON相应，而函数调用是由浏览器执行的，这使宿主web应用程序更容易受到各类攻击，如果打算使用JSONP服务，了解它能造成的威胁非常重要。</p>
+<p><strong><em>参考网址</em></strong><br><a href="https://blog.csdn.net/u014607184/article/details/52027879" target="_blank" rel="noopener">轻松搞定JSONP跨域请求</a><br><a href="http://justcoding.iteye.com/blog/1366102" target="_blank" rel="noopener">AJAX跨域请求—JSONP获取JSON数据</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '',
+  alipayImage: ''
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/20/堆和栈的区别（待补充）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          堆和栈的区别（待补充）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/18/JS常见面试题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JS知识点（持续扩展）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#同源策略"><span class="nav-number">1.</span> <span class="nav-text"> 同源策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨域问题"><span class="nav-number">2.</span> <span class="nav-text"> 跨域问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON"><span class="nav-number">3.</span> <span class="nav-text"> JSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP的原理"><span class="nav-number">4.</span> <span class="nav-text"> JSONP的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP的优缺点"><span class="nav-number">5.</span> <span class="nav-text"> JSONP的优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">6.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">7.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#补充"><span class="nav-number">8.</span> <span class="nav-text">补充</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2018 送你回家 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            送你回家
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 smilay All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
