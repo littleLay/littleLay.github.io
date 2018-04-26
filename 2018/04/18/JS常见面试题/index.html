@@ -3,19 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>送你回家</title>
+  <title>js知识点（持续扩展） | 送你回家</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="送你回家">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="图片懒加载引用源文 - 什么叫图片懒加载？当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。 - 为什么要使用这个技术？如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS知识点（持续扩展）">
+<meta property="og:url" content="http://yoursite.com/2018/04/18/JS常见面试题/index.html">
 <meta property="og:site_name" content="送你回家">
+<meta property="og:description" content="图片懒加载引用源文 - 什么叫图片懒加载？当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。 - 为什么要使用这个技术？如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://imgsa.baidu.com/forum/w%3D580/sign=4dfad5bbd31373f0f53f6f97940d4b8b/4beffffe9925bc31c0d94c585cdf8db1ca137000.jpg">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-ccfbae49588870d7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-62fa73ee3afc69cf?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-8cc5795fed1e4d8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8542482-42aad8702ce073e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-26T06:48:39.902Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="送你回家">
+<meta name="twitter:title" content="JS知识点（持续扩展）">
+<meta name="twitter:description" content="图片懒加载引用源文 - 什么叫图片懒加载？当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。 - 为什么要使用这个技术？如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头">
+<meta name="twitter:image" content="https://imgsa.baidu.com/forum/w%3D580/sign=4dfad5bbd31373f0f53f6f97940d4b8b/4beffffe9925bc31c0d94c585cdf8db1ca137000.jpg">
   
     <link rel="alternate" href="/atom.xml" title="送你回家" type="application/atom+xml">
   
@@ -44,11 +54,13 @@
   <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/home.css" >
+    <link rel="stylesheet" href="/css/dialog.css">
   
 
   
 
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
   
 
   
@@ -61,450 +73,107 @@
 
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
-  
-    <header id="header">
-
-	<!-- 背景图模式 -->
-	
-
-    
-      <div id="intrologo" class="intro-logo" style="background-position:center; background-repeat:no-repeat; background-image: url(); background-size: auto 100%;">
-
-      <!-- Support rolling -->  
-        
-        <section class="awSlider">
-          <div class="carousel slide carousel-fade " data-ride="carousel">
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-               
-                  
-                    <div class="item active">
-                  
-                    <img id="carousel-img0" src="/css/images/home-bg.jpg">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img0 = new Image();
-                      var imageTag0 = document.getElementById("carousel-img0");
-                      img0.src = imageTag0.src;
-                      img0.onload=function(){
-                        if (img0.width / img0.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag0.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag0.style.height = document.body.clientHeight + "px";
-                          imageTag0.style.marginLeft = -(document.body.clientHeight * img0.width / img0.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img1" src="/css/images/sample.jpg">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img1 = new Image();
-                      var imageTag1 = document.getElementById("carousel-img1");
-                      img1.src = imageTag1.src;
-                      img1.onload=function(){
-                        if (img1.width / img1.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag1.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag1.style.height = document.body.clientHeight + "px";
-                          imageTag1.style.marginLeft = -(document.body.clientHeight * img1.width / img1.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img2" src="/css/images/1.jpg">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img2 = new Image();
-                      var imageTag2 = document.getElementById("carousel-img2");
-                      img2.src = imageTag2.src;
-                      img2.onload=function(){
-                        if (img2.width / img2.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag2.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag2.style.height = document.body.clientHeight + "px";
-                          imageTag2.style.marginLeft = -(document.body.clientHeight * img2.width / img2.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-                  
-                    <div class="item">
-                  
-                    <img id="carousel-img3" src="https://source.unsplash.com/collection/954550/1920x1080">
-                  </div>
-
-                  <!-- 自适应大图 -->
-                  <script>
-                      var img3 = new Image();
-                      var imageTag3 = document.getElementById("carousel-img3");
-                      img3.src = imageTag3.src;
-                      img3.onload=function(){
-                        if (img3.width / img3.height <= document.body.clientWidth / document.body.clientHeight) {
-                          imageTag3.style.width = document.body.clientWidth + "px";
-                        } else {
-                          imageTag3.style.height = document.body.clientHeight + "px";
-                          imageTag3.style.marginLeft = -(document.body.clientHeight * img3.width / img3.height - document.body.clientWidth) / 2 + "px";
-                        }
-                      };
-                  </script>
-                
-            </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href=".carousel" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Geri</span>
-            </a>
-            <a class="right carousel-control" href=".carousel" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">İleri</span>
-            </a>
-          </div>
-        </section>
-        <script>
-          $('section.awSlider .carousel').carousel({
-              pause: '',
-              interval: 5000
-          });
-          var startImage = $('section.awSlider .item.active > img').attr('src');
-          $('section.awSlider .carousel').on('slid.bs.carousel', function () {
-              var bscn = $(this).find('.item.active > img').attr('src');
-              $('section.awSlider > img').attr('src', bscn);
-          });
-        </script>
-      
-
-    
- 
-
-
-    <canvas width="100%" height="100%"></canvas>
-    <script>
-      var c = document.getElementsByTagName('canvas')[0],
-          x = c.getContext('2d'),
-          w = window.innerWidth,
-          h = window.innerHeight,
-          pr = window.devicePixelRatio || 1,
-          f = 90,
-          q,
-          m = Math,
-          r = 0,
-          u = m.PI*2,
-          v = m.cos,
-          z = m.random
-      c.width = w*pr
-      c.height = h*pr
-      x.scale(pr, pr)
-      x.globalAlpha = 0.6
-
-      <!-- 折线Polyline背景 -->
-      
-    </script>
-    
-
-    
-      <div id="homelogo" class="homelogo" style="background: rgba(255,255,255,1);"> 
-    
-
-        
-          <div class="homelogoback"  style="border: 1px solid #404040;" >
-            <h1><a href="#content" id="logo">送你回家</a></h1>
-            <h3></h3>
-            <h5>smilay</h5>
-            <!-- <p><a href="https://github.com/iTimeTraveler" target="_blank">Github</a></p> -->
-          </div>
-        
-    
-    </div>
-  </div>
-
-  <!-- 自适应主页背景大图 -->
-  
-
- <!-- home_logo_image居中 -->
- 
-    <script>
-        var homelogodiv = document.getElementById("homelogo");
-        if (document.all.homelogo.offsetWidth > document.body.clientWidth) {
-          homelogodiv.style.width = document.body.clientWidth + "px";
-          homelogodiv.style.marginLeft = document.body.clientWidth * -0.5 + "px";
-        } else {
-          homelogodiv.style.width = homelogodiv.clientWidth  + "px";
-          homelogodiv.style.marginLeft = (homelogodiv.clientWidth)  * -0.5 + "px";
-        }
-    </script>
-  
-
-  <div class="intro-navigate">
-      <p class="navigater-list">
-        
-          <a id="beautifont" class="main-nav-link" href="/">Home</a>
-        
-          <a id="beautifont" class="main-nav-link" href="/archives">Archives</a>
-        
-          <a id="beautifont" class="main-nav-link" href="/categories">Categories</a>
-        
-          <a id="beautifont" class="main-nav-link" href="/tags">Tags</a>
-        
-          <a id="beautifont" class="main-nav-link" href="/about">About</a>
-        
-      </p>
-  </div>
-
-</header>
   
   <div id="container">
     <div id="wrap">
       
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;">
-  
-    <article id="post-filter()实现模糊的三种方式"  class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-JS常见面试题" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/26/filter()实现模糊的三种方式/">filter()实现模糊的三种方式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/04/26/filter()实现模糊的三种方式/" class="article-date">
-	  <time datetime="2018-04-26T02:27:14.309Z" itemprop="datePublished">2018-04-26</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/CSS/">CSS</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><center><img src="https://upload-images.jianshu.io/upload_images/8542482-4b5418772daadeb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/23 阴天"></center></p>
-<p><center><br>filter:blur(2px) 是实现背景模糊的主要属性，下面来讲述filter实现三种效果的方法。</center></p>
-<p><center><br>blur里的参数是设定高斯函数的标准差，或者说是屏幕上以多少像素融在一起，所以值越大，越模糊。</center></p>
-<h3 id="普通背景模糊"><a href="#普通背景模糊" class="headerlink" title=" 普通背景模糊"></a><center> 普通背景模糊</center></h3><p><center>filter属性会使整个div的后代模糊并且还会出现白边，如果想让div里的子元素不模糊，<strong><em>怎么办呢？</em></strong></center></p>
-<p><center>可以使用伪元素，既解决了模糊问题，也解决了白边问题。</center></p>
-<ul>
-<li><p>实现思路：<br>在父容器中设置背景，并且使用相对定位，方便伪元素重叠；在：after中只需要继承背景，并且设置模糊，绝对定位覆盖父元素即可，这样父容器中的子元素便可不受模糊度影响。因为伪元素的模糊度不能被父元素的子代继承。</p>
-</li>
-<li><p>代码如下：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">&lt;div class=&quot;bg&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;drag&quot;&gt;like window&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">css</span><br><span class="line">.bg&#123;</span><br><span class="line">  with:100%;</span><br><span class="line">  hight:100%;</span><br><span class="line">  position:relative;</span><br><span class="line">  background:url(&quot;picture&quot;) no-repeat fixed;</span><br><span class="line">  padding:1px;</span><br><span class="line">  box-sizing:border-box;</span><br><span class="line">  z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.bg:after&#123;</span><br><span class="line">  content:&quot;&quot;;</span><br><span class="line">  width:100%;</span><br><span class="line">  height:100%;</span><br><span class="line">  position:absolute;</span><br><span class="line">  left:0;</span><br><span class="line">  top:0;</span><br><span class="line">  background:inherit;</span><br><span class="line">  filter:blur(2px);</span><br><span class="line">  z-index:2;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">position:absolute;</span><br><span class="line">left:50%;</span><br><span class="line">top:50%;</span><br><span class="line">transform:translate(-50%,-50%);</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">text-align:center;</span><br><span class="line">z-index:11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong><em>这里需要注意三个地方：</em></strong><br>1 子代元素也需要使用绝对定位<br>2 需要用z-index确定层级关系<br>3 保证子代元素的层级最高</p>
-<h3 id="背景局部模糊"><a href="#背景局部模糊" class="headerlink" title=" 背景局部模糊"></a><center> 背景局部模糊</center></h3><p>背景局部模糊不需要设置父元素的伪元素为模糊，直接在你想模糊的元素外面套一个div，给该元素的伪元素模糊即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">html部分</span><br><span class="line">&lt;div class=&quot;bg&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;drag&quot;&gt;</span><br><span class="line">    &lt;div&gt;like window&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">css部分</span><br><span class="line">.bg&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">background:url(&quot;picture&quot;) no-repeat fixed;</span><br><span class="line">padding:1px;</span><br><span class="line">box-sizing:border-box;</span><br><span class="line">z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">margin:100px auto;</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">background:inherit;</span><br><span class="line">position:relative;</span><br><span class="line">&#125;</span><br><span class="line">.drag &gt;div&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">text-align:center;</span><br><span class="line">line-height:200px;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">z-index:11;</span><br><span class="line">设置子元素的层级高一些，不会被drag覆盖</span><br><span class="line">&#125;</span><br><span class="line">.drag:after&#123;</span><br><span class="line">content:&quot;&quot;;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">background:inherit;</span><br><span class="line">filter:blur(15px);</span><br><span class="line">z-index:2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="背景局部清晰"><a href="#背景局部清晰" class="headerlink" title=" 背景局部清晰"></a><center> 背景局部清晰</center></h3><p>设置父元素的伪元素的filter，子元素的z-index高于父元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">.bg&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:relative;</span><br><span class="line">background:url(picture) no-repeat fixed;</span><br><span class="line">padding:1px;</span><br><span class="line">box-sizing:border-box;</span><br><span class="line">&#125;</span><br><span class="line">.bg:after&#123;</span><br><span class="line">content:&quot;&quot;;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">background:inherit;</span><br><span class="line">filter:blur(3px);</span><br><span class="line">z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">position:absolute;</span><br><span class="line">left:40%;</span><br><span class="line">top:30%;</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">text-align:center;</span><br><span class="line">background:inherit;</span><br><span class="line">z-index:11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-jquery基本操作总结"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/26/jquery基本操作总结/">jquery基本操作总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/04/26/jquery基本操作总结/" class="article-date">
-	  <time datetime="2018-04-25T16:00:00.000Z" itemprop="datePublished">2018-04-26</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/jquery/">jquery</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><center><img src="https://imgsa.baidu.com/forum/w%3D580/sign=4cebdabbd31373f0f53f6f97940d4b8b/4beffffe9925bc31c1c843585cdf8db1ca137077.jpg" alt="2018/4/23 阴天"></center></p>
-<p><center><a href="http://www.w3school.com.cn/jquery/jquery_dom_get.asp" target="_blank" rel="noopener">资料来源</a></center></p>
-<h3 id="《jQuery-选择器》"><a href="#《jQuery-选择器》" class="headerlink" title=" 《jQuery 选择器》"></a><center> 《jQuery 选择器》</center></h3><p><center>jquery元素选择器和属性选择器允许您通过标签名、属性名或内容对HTML元素进行选择。</center></p>
-<p><center>- jquery元素选择器</center></p>
-<h5 id="使用CSS选择器来选取HTML元素"><a href="#使用CSS选择器来选取HTML元素" class="headerlink" title="使用CSS选择器来选取HTML元素"></a>使用CSS选择器来选取HTML元素</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;p&quot;)选取了p元素</span><br><span class="line">$(&quot;#intro&quot;)选取了id=”intro“的元素</span><br><span class="line">$(&quot;.intro&quot;)选取了class=&quot;intro&quot;的元素</span><br></pre></td></tr></table></figure>
-<h5 id="jquery属性选择器"><a href="#jquery属性选择器" class="headerlink" title="jquery属性选择器"></a>jquery属性选择器</h5><p>使用XPath表达式来选择带有给定属性的元素。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"[href]"</span>)选取所有带有href属性的元素。</span><br></pre></td></tr></table></figure></p>
-<h5 id="jqueryCSS选择器"><a href="#jqueryCSS选择器" class="headerlink" title="jqueryCSS选择器"></a>jqueryCSS选择器</h5><p>可用于改变HTML元素的CSS属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;p&quot;).css(&quot;background-color&quot;,&quot;red&quot;);</span><br></pre></td></tr></table></figure></p>
-<h3 id="《jQuery-事件》"><a href="#《jQuery-事件》" class="headerlink" title=" 《jQuery 事件》"></a><center> 《jQuery 事件》</center></h3><p>$(document).ready(function) 将函数绑定到文档的就绪事件（document是固定的）<br>$(selector).click(function) 触发或将函数绑定到被选元素的点击事件<br>$(selector).dblclick(function)触发或将函数绑定到被选元素的双击事件<br>$(selector).focus(function)触发或将函数绑定到被选元素的获得焦点事件<br>$(selector).mouseover(function)触发或将函数绑定到被选元素的鼠标悬停事件</p>
-<h3 id="《jQuery-HTML》"><a href="#《jQuery-HTML》" class="headerlink" title=" 《jQuery HTML》"></a><center> 《jQuery HTML》</center></h3><h5 id="jQuery获取和设置"><a href="#jQuery获取和设置" class="headerlink" title="jQuery获取和设置"></a>jQuery获取和设置</h5><p>jquery中非常重要的部分就是操作DOM的能力。</p>
-<h5 id="jquery-text-和jquery-html-方法可以来获得所选择的元素的内容"><a href="#jquery-text-和jquery-html-方法可以来获得所选择的元素的内容" class="headerlink" title="jquery text()和jquery html()方法可以来获得所选择的元素的内容"></a>jquery text()和jquery html()方法可以来获得所选择的元素的内容</h5><h5 id="jquery-val-方法可以获得输入字段的值"><a href="#jquery-val-方法可以获得输入字段的值" class="headerlink" title="jquery val()方法可以获得输入字段的值"></a>jquery val()方法可以获得输入字段的值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;#btn&quot;).click(function()&#123;</span><br><span class="line">alert(&quot;Value:&quot; + $(&quot;#test&quot;).val());</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>通过上面的方法，可以得到Input框中的value值。</p>
-<h5 id="jquery-attr-方法用来获取属性值"><a href="#jquery-attr-方法用来获取属性值" class="headerlink" title="jquery attr()方法用来获取属性值"></a>jquery attr()方法用来获取属性值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;button&quot;).click(function()&#123;</span><br><span class="line">alert($(&quot;#a&quot;).attr(&quot;href&quot;));</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>通过上面的方法，可以得到a标签中href属性值</p>
-<p>以上方法，当参数为空时则是获取功能，当传参时为设置功能。其中attr方法设置的时候，参数是键值对的方式，需要一个属性值和一个内容来对应。</p>
-<h5 id="jquery添加和删除"><a href="#jquery添加和删除" class="headerlink" title="jquery添加和删除"></a>jquery添加和删除</h5><ul>
-<li>append()，在被选元素的结尾插入内容</li>
-<li>prepend()，在被选元素的开头插入内容</li>
-<li>after()，在被选元素之后插入内容</li>
-<li>before()，在被选元素之前插入内容</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-hello-world"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/04/25/hello-world/" class="article-date">
-	  <time datetime="2018-04-25T05:51:07.499Z" itemprop="datePublished">2018-04-25</time>
-	</a>
-
-      
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-堆和栈的区别（待补充）"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/20/堆和栈的区别（待补充）/">堆和栈的区别（待补充）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/04/20/堆和栈的区别（待补充）/" class="article-date">
-	  <time datetime="2018-04-19T16:00:00.000Z" itemprop="datePublished">2018-04-20</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/小Tips/">小Tips</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=4f3dfbe8347adab43dd01b4bbbd5b36b/43058acad1c8a7867e3302ce6509c93d71cf50eb.jpg" alt="2018 忘了哪月哪日 应该是阴天"></p>
-<h3 id="堆和栈的区别？"><a href="#堆和栈的区别？" class="headerlink" title=" 堆和栈的区别？"></a><center> 堆和栈的区别？</center></h3><p><center> <a href="https://www.zhihu.com/question/19729973" target="_blank" rel="noopener">资料原文</a></center></p>
-<h5 id="栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。"><a href="#栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。" class="headerlink" title=" 栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。"></a><center> 栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。</center></h5><h5 id="堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。"><a href="#堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。" class="headerlink" title=" 堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。"></a><center> 堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。</center></h5><p><br></p>
-<h4 id="区别和联系："><a href="#区别和联系：" class="headerlink" title="区别和联系："></a><center>区别和联系：</center></h4><h5 id="申请方式："><a href="#申请方式：" class="headerlink" title="- 申请方式："></a>- 申请方式：</h5><p>堆：由程序员自己申请并指明大小，比如在c中malloc函数，如p1 = (char*)malloc(10);<br>栈：由系统自动分配，如声明在函数中一个局部变量int b;系统自动在栈中为b开辟空间。</p>
-<h5 id="申请后系统的响应"><a href="#申请后系统的响应" class="headerlink" title="- 申请后系统的响应"></a>- 申请后系统的响应</h5><p>栈：只要栈的剩余空间大于所申请空间，系统将为程序提供内存，否则将报异常提示栈溢出。<br>堆：首先应该知道操作系统有一个记录空闲内存地址的链表，当系统收到程序的申请时，会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序。另外，对于大多数系统，会在这块内存空间中的首地址处记录本次分配的大小，这样，代码中的delete语句才能正确的释放本地内存空间。另外，由于找到的堆结点的大小不一定正好等于申请的大小，系统会自动的将多余的那部分重新放入空闲链表中。</p>
-<h5 id="申请大小的限制"><a href="#申请大小的限制" class="headerlink" title="- 申请大小的限制"></a>- 申请大小的限制</h5><p>栈：在windows下，栈是向低地址扩展的数据结构，是一块连续的内存的区域。即栈顶的地址和栈的最大容量是系统预先规定好的，在windows下，栈的大小是iM（i&lt;=2，是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow，因此，能从栈获得的空间较小。<br>堆：堆是向高地址扩展的数据结构，是不连续的内存区域，这是由于系统是用链表来存储空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存，由此可见，堆获得的空间比较灵活，也比较大。</p>
-<h5 id="申请效率的比较"><a href="#申请效率的比较" class="headerlink" title="- 申请效率的比较"></a>- 申请效率的比较</h5><p>栈是由系统自动分配，速度较快，但程序员是无法控制的。<br>堆是由new分配的内存，一般速度比较慢，而且容易产生内存碎片，但是用起来最方便。<br><br></p>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a><center>总结：</center></h4><h5 id="使用栈就像我们去饭馆里吃饭，只管点菜、付钱和吃，吃饱了就走，不必理会切菜、洗菜等准备工作和洗碗、刷锅等扫尾工作，好处是快捷，但是自由度小"><a href="#使用栈就像我们去饭馆里吃饭，只管点菜、付钱和吃，吃饱了就走，不必理会切菜、洗菜等准备工作和洗碗、刷锅等扫尾工作，好处是快捷，但是自由度小" class="headerlink" title=" 使用栈就像我们去饭馆里吃饭，只管点菜、付钱和吃，吃饱了就走，不必理会切菜、洗菜等准备工作和洗碗、刷锅等扫尾工作，好处是快捷，但是自由度小"></a><center> 使用栈就像我们去饭馆里吃饭，只管点菜、付钱和吃，吃饱了就走，不必理会切菜、洗菜等准备工作和洗碗、刷锅等扫尾工作，好处是快捷，但是自由度小</center></h5><h5 id="使用堆就像是自己动手做喜欢吃的菜肴，比较麻烦，但是比较符合自己的口味，并且自由度大。"><a href="#使用堆就像是自己动手做喜欢吃的菜肴，比较麻烦，但是比较符合自己的口味，并且自由度大。" class="headerlink" title=" 使用堆就像是自己动手做喜欢吃的菜肴，比较麻烦，但是比较符合自己的口味，并且自由度大。"></a><center> 使用堆就像是自己动手做喜欢吃的菜肴，比较麻烦，但是比较符合自己的口味，并且自由度大。</center></h5><p><br></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-JS常见面试题"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/18/JS常见面试题/">JS知识点（持续扩展）</a>
+    <h1 class="thumb" class="article-title" itemprop="name">
+      JS知识点（持续扩展）
     </h1>
   
 
@@ -520,6 +189,12 @@
     <a class="article-category-link" href="/categories/小Tips/">小Tips</a>
 
       
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
     </div>
     <div class="article-entry" itemprop="articleBody">
       
@@ -672,28 +347,85 @@
     </div>
     <footer class="article-footer">
       
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: '',
+  alipayImage: ''
+});
+</script>
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
       
       
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/20/堆和栈的区别（待补充）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          堆和栈的区别（待补充）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/14/CSS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CSS知识点</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
 <!-- Table of Contents -->
 
-  
-
-
-  <nav id="page-nav">
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-  </nav>
-
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#图片懒加载"><span class="nav-number">1.</span> <span class="nav-text"> 图片懒加载</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么叫图片懒加载？"><span class="nav-number">1.0.1.</span> <span class="nav-text">- 什么叫图片懒加载？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要使用这个技术？"><span class="nav-number">1.0.2.</span> <span class="nav-text">- 为什么要使用这个技术？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#怎么实现？"><span class="nav-number">1.0.3.</span> <span class="nav-text">- 怎么实现？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件委托和事件捕获"><span class="nav-number">2.</span> <span class="nav-text"> 事件委托和事件捕获</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概述"><span class="nav-number">2.0.1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#事件委托的原理："><span class="nav-number">2.0.2.</span> <span class="nav-text"> 事件委托的原理：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件捕获的执行顺序"><span class="nav-number">3.</span> <span class="nav-text"> 事件捕获的执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS数组方法"><span class="nav-number">4.</span> <span class="nav-text"> JS数组方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#join"><span class="nav-number">4.0.1.</span> <span class="nav-text"> join()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#reverse"><span class="nav-number">4.0.2.</span> <span class="nav-text"> reverse()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sort"><span class="nav-number">4.0.3.</span> <span class="nav-text"> sort()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cancat"><span class="nav-number">4.0.4.</span> <span class="nav-text"> cancat()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#slice-start-end"><span class="nav-number">4.0.5.</span> <span class="nav-text"> slice(start,end)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#splice"><span class="nav-number">4.0.6.</span> <span class="nav-text"> splice()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除的用法，array-splice-starti-n-，其中starti的含义是从哪个位置开始，n指的是需要删除的个数。"><span class="nav-number">4.0.7.</span> <span class="nav-text">删除的用法，array.splice(starti,n)，其中starti的含义是从哪个位置开始，n指的是需要删除的个数。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插入的用法，array-splice-starti，0，值1，值2……-，其中0表示删除0个元素，值1和值2表示需要插入的值。"><span class="nav-number">4.0.8.</span> <span class="nav-text">插入的用法，array.splice(starti，0，值1，值2……)，其中0表示删除0个元素，值1和值2表示需要插入的值。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#替换的用法，array-splice-starti，n，值1，值2-，在需要替换的位置先删除，然后再插入值"><span class="nav-number">4.0.9.</span> <span class="nav-text">替换的用法，array.splice(starti，n，值1，值2)，在需要替换的位置先删除，然后再插入值~</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把数组当栈使用"><span class="nav-number">4.1.</span> <span class="nav-text"> 把数组当栈使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现拖拽功能"><span class="nav-number">5.</span> <span class="nav-text"> 实现拖拽功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现Gulp的功能"><span class="nav-number">6.</span> <span class="nav-text"> 实现Gulp的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#常用功能及其插件"><span class="nav-number">6.0.1.</span> <span class="nav-text">- 常用功能及其插件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#promise的实现原理"><span class="nav-number">7.</span> <span class="nav-text"> promise的实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack"><span class="nav-number">8.</span> <span class="nav-text"> webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-出口"><span class="nav-number">8.0.1.</span> <span class="nav-text">2 出口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浅克隆和深克隆和ES6的Symbol"><span class="nav-number">9.</span> <span class="nav-text"> 浅克隆和深克隆和ES6的Symbol</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#针对ES6新增的Symbol类型来探讨一下浅拷贝和深拷贝"><span class="nav-number">9.0.1.</span> <span class="nav-text">- 针对ES6新增的Symbol类型来探讨一下浅拷贝和深拷贝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手写parseInt的实现："><span class="nav-number">10.</span> <span class="nav-text"> 手写parseInt的实现：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么的跨域，为什么会有跨域？"><span class="nav-number">11.</span> <span class="nav-text"> 什么的跨域，为什么会有跨域？</span></a></li></ol>
+    
+    </div>
+  </aside>
 </section>
         
       </div>
-      
-        <div align="center" style="margin-top: 30px;"><hr class="hr" style="margin:0px; height:3px;"></div>
       
       <footer id="footer">
   
@@ -785,9 +517,9 @@
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
 
 
+  <script src="/js/dialog.js"></script>
 
 
 
@@ -872,6 +604,8 @@
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
