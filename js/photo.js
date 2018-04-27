@@ -1,12 +1,11 @@
-
-init: function () {
+function init() {
     var that = this;
     $.getJSON("/photos/data.json", function (data) {
         that.render(that.page, data);
         that.scroll(data);
     });
-},
-render: function (page, data) {
+}
+function render(page, data) {
     var begin = (page - 1) * this.offset;
     var end = page * this.offset;
     if (begin >= data.length) return;
@@ -17,4 +16,4 @@ render: function (page, data) {
     $(".img-box-ul").append(li);
     $(".img-box-ul").lazyload();
     $("a[rel=example_group]").fancybox();
-},
+}
