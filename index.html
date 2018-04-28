@@ -305,21 +305,35 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><center><img src="https://upload-images.jianshu.io/upload_images/8542482-4b5418772daadeb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/23 阴天"></center></p>
-<p><center><br>filter:blur(2px) 是实现背景模糊的主要属性，下面来讲述filter实现三种效果的方法。</center></p>
-<p><center><br>blur里的参数是设定高斯函数的标准差，或者说是屏幕上以多少像素融在一起，所以值越大，越模糊。</center></p>
-<h3 id="普通背景模糊"><a href="#普通背景模糊" class="headerlink" title=" 普通背景模糊"></a><center> 普通背景模糊</center></h3><p><center>filter属性会使整个div的后代模糊并且还会出现白边，如果想让div里的子元素不模糊，<strong><em>怎么办呢？</em></strong></center></p>
-<p><center>可以使用伪元素，既解决了模糊问题，也解决了白边问题。</center></p>
+        <p>&lt;center&gt;<img src="https://upload-images.jianshu.io/upload_images/8542482-4b5418772daadeb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/23 阴天"></p>
+<p>&lt;center&gt;
+filter:blur(2px) 是实现背景模糊的主要属性，下面来讲述filter实现三种效果的方法。
+&lt;center&gt;
+blur里的参数是设定高斯函数的标准差，或者说是屏幕上以多少像素融在一起，所以值越大，越模糊。</p>
+<h3>&lt;center&gt; 普通背景模糊</h3>
+<p>&lt;center&gt;filter属性会使整个div的后代模糊并且还会出现白边，如果想让div里的子元素不模糊，<strong><em>怎么办呢？</em></strong>
+&lt;center&gt;可以使用伪元素，既解决了模糊问题，也解决了白边问题。
+&lt;!-- more --&gt;</p>
 <ul>
-<li><p>实现思路：<br>在父容器中设置背景，并且使用相对定位，方便伪元素重叠；在：after中只需要继承背景，并且设置模糊，绝对定位覆盖父元素即可，这样父容器中的子元素便可不受模糊度影响。因为伪元素的模糊度不能被父元素的子代继承。</p>
+<li>
+<p>实现思路：
+在父容器中设置背景，并且使用相对定位，方便伪元素重叠；在：after中只需要继承背景，并且设置模糊，绝对定位覆盖父元素即可，这样父容器中的子元素便可不受模糊度影响。因为伪元素的模糊度不能被父元素的子代继承。</p>
 </li>
-<li><p>代码如下：</p>
+<li>
+<p>代码如下：</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">&lt;div class=&quot;bg&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;drag&quot;&gt;like window&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">css</span><br><span class="line">.bg&#123;</span><br><span class="line">  with:100%;</span><br><span class="line">  hight:100%;</span><br><span class="line">  position:relative;</span><br><span class="line">  background:url(&quot;picture&quot;) no-repeat fixed;</span><br><span class="line">  padding:1px;</span><br><span class="line">  box-sizing:border-box;</span><br><span class="line">  z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.bg:after&#123;</span><br><span class="line">  content:&quot;&quot;;</span><br><span class="line">  width:100%;</span><br><span class="line">  height:100%;</span><br><span class="line">  position:absolute;</span><br><span class="line">  left:0;</span><br><span class="line">  top:0;</span><br><span class="line">  background:inherit;</span><br><span class="line">  filter:blur(2px);</span><br><span class="line">  z-index:2;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">position:absolute;</span><br><span class="line">left:50%;</span><br><span class="line">top:50%;</span><br><span class="line">transform:translate(-50%,-50%);</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">text-align:center;</span><br><span class="line">z-index:11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong><em>这里需要注意三个地方：</em></strong><br>1 子代元素也需要使用绝对定位<br>2 需要用z-index确定层级关系<br>3 保证子代元素的层级最高</p>
-<h3 id="背景局部模糊"><a href="#背景局部模糊" class="headerlink" title=" 背景局部模糊"></a><center> 背景局部模糊</center></h3><p>背景局部模糊不需要设置父元素的伪元素为模糊，直接在你想模糊的元素外面套一个div，给该元素的伪元素模糊即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">html部分</span><br><span class="line">&lt;div class=&quot;bg&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;drag&quot;&gt;</span><br><span class="line">    &lt;div&gt;like window&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">css部分</span><br><span class="line">.bg&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">background:url(&quot;picture&quot;) no-repeat fixed;</span><br><span class="line">padding:1px;</span><br><span class="line">box-sizing:border-box;</span><br><span class="line">z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">margin:100px auto;</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">background:inherit;</span><br><span class="line">position:relative;</span><br><span class="line">&#125;</span><br><span class="line">.drag &gt;div&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">text-align:center;</span><br><span class="line">line-height:200px;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">z-index:11;</span><br><span class="line">设置子元素的层级高一些，不会被drag覆盖</span><br><span class="line">&#125;</span><br><span class="line">.drag:after&#123;</span><br><span class="line">content:&quot;&quot;;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">background:inherit;</span><br><span class="line">filter:blur(15px);</span><br><span class="line">z-index:2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="背景局部清晰"><a href="#背景局部清晰" class="headerlink" title=" 背景局部清晰"></a><center> 背景局部清晰</center></h3><p>设置父元素的伪元素的filter，子元素的z-index高于父元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">.bg&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:relative;</span><br><span class="line">background:url(picture) no-repeat fixed;</span><br><span class="line">padding:1px;</span><br><span class="line">box-sizing:border-box;</span><br><span class="line">&#125;</span><br><span class="line">.bg:after&#123;</span><br><span class="line">content:&quot;&quot;;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">background:inherit;</span><br><span class="line">filter:blur(3px);</span><br><span class="line">z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">position:absolute;</span><br><span class="line">left:40%;</span><br><span class="line">top:30%;</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">text-align:center;</span><br><span class="line">background:inherit;</span><br><span class="line">z-index:11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line">&lt;div class=&quot;bg&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;drag&quot;&gt;like window&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">css</span><br><span class="line">.bg&#123;</span><br><span class="line">  with:100%;</span><br><span class="line">  hight:100%;</span><br><span class="line">  position:relative;</span><br><span class="line">  background:url(&quot;picture&quot;) no-repeat fixed;</span><br><span class="line">  padding:1px;</span><br><span class="line">  box-sizing:border-box;</span><br><span class="line">  z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.bg:after&#123;</span><br><span class="line">  content:&quot;&quot;;</span><br><span class="line">  width:100%;</span><br><span class="line">  height:100%;</span><br><span class="line">  position:absolute;</span><br><span class="line">  left:0;</span><br><span class="line">  top:0;</span><br><span class="line">  background:inherit;</span><br><span class="line">  filter:blur(2px);</span><br><span class="line">  z-index:2;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">position:absolute;</span><br><span class="line">left:50%;</span><br><span class="line">top:50%;</span><br><span class="line">transform:translate(-50%,-50%);</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">text-align:center;</span><br><span class="line">z-index:11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>这里需要注意三个地方：</em></strong>
+1 子代元素也需要使用绝对定位
+2 需要用z-index确定层级关系
+3 保证子代元素的层级最高</p>
+<h3>&lt;center&gt; 背景局部模糊</h3>
+<p>背景局部模糊不需要设置父元素的伪元素为模糊，直接在你想模糊的元素外面套一个div，给该元素的伪元素模糊即可。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">html部分</span><br><span class="line">&lt;div class=&quot;bg&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;drag&quot;&gt;</span><br><span class="line">    &lt;div&gt;like window&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">css部分</span><br><span class="line">.bg&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">background:url(&quot;picture&quot;) no-repeat fixed;</span><br><span class="line">padding:1px;</span><br><span class="line">box-sizing:border-box;</span><br><span class="line">z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">margin:100px auto;</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">background:inherit;</span><br><span class="line">position:relative;</span><br><span class="line">&#125;</span><br><span class="line">.drag &gt;div&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">text-align:center;</span><br><span class="line">line-height:200px;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">z-index:11;</span><br><span class="line">设置子元素的层级高一些，不会被drag覆盖</span><br><span class="line">&#125;</span><br><span class="line">.drag:after&#123;</span><br><span class="line">content:&quot;&quot;;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">background:inherit;</span><br><span class="line">filter:blur(15px);</span><br><span class="line">z-index:2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3>&lt;center&gt; 背景局部清晰</h3>
+<p>设置父元素的伪元素的filter，子元素的z-index高于父元素。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">.bg&#123;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:relative;</span><br><span class="line">background:url(picture) no-repeat fixed;</span><br><span class="line">padding:1px;</span><br><span class="line">box-sizing:border-box;</span><br><span class="line">&#125;</span><br><span class="line">.bg:after&#123;</span><br><span class="line">content:&quot;&quot;;</span><br><span class="line">width:100%;</span><br><span class="line">height:100%;</span><br><span class="line">position:absolute;</span><br><span class="line">left:0;</span><br><span class="line">top:0;</span><br><span class="line">background:inherit;</span><br><span class="line">filter:blur(3px);</span><br><span class="line">z-index:1;</span><br><span class="line">&#125;</span><br><span class="line">.drag&#123;</span><br><span class="line">position:absolute;</span><br><span class="line">left:40%;</span><br><span class="line">top:30%;</span><br><span class="line">width:200px;</span><br><span class="line">height:200px;</span><br><span class="line">text-align:center;</span><br><span class="line">background:inherit;</span><br><span class="line">z-index:11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -362,20 +376,45 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><center><img src="https://imgsa.baidu.com/forum/w%3D580/sign=4cebdabbd31373f0f53f6f97940d4b8b/4beffffe9925bc31c1c843585cdf8db1ca137077.jpg" alt="2018/4/23 阴天"></center></p>
-<p><center><a href="http://www.w3school.com.cn/jquery/jquery_dom_get.asp" target="_blank" rel="noopener">资料来源</a></center></p>
-<h3 id="《jQuery-选择器》"><a href="#《jQuery-选择器》" class="headerlink" title=" 《jQuery 选择器》"></a><center> 《jQuery 选择器》</center></h3><p><center>jquery元素选择器和属性选择器允许您通过标签名、属性名或内容对HTML元素进行选择。</center></p>
-<p><center>- jquery元素选择器</center></p>
-<h5 id="使用CSS选择器来选取HTML元素"><a href="#使用CSS选择器来选取HTML元素" class="headerlink" title="使用CSS选择器来选取HTML元素"></a>使用CSS选择器来选取HTML元素</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;p&quot;)选取了p元素</span><br><span class="line">$(&quot;#intro&quot;)选取了id=”intro“的元素</span><br><span class="line">$(&quot;.intro&quot;)选取了class=&quot;intro&quot;的元素</span><br></pre></td></tr></table></figure>
-<h5 id="jquery属性选择器"><a href="#jquery属性选择器" class="headerlink" title="jquery属性选择器"></a>jquery属性选择器</h5>
-        <!-- 
-资料来源
- 《jQuery 选择器》jquery元素选择器和属性选择器允许您通过标签名、属性名或内容对HTML元素进行选择。
-- jquery元素选择器
-使用CSS选择器来选取HTML元素123$(&quot;p&quot;)选取了p元素$(&quot;#intro&quot;)选取了id=”intro“的元素$(&quot;.intro&quot;)选取了class=&quot;intr......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/26/jquery基本操作总结/#more">Read More</a>
-        </p>
+        <p>&lt;center&gt;<img src="https://imgsa.baidu.com/forum/w%3D580/sign=4cebdabbd31373f0f53f6f97940d4b8b/4beffffe9925bc31c1c843585cdf8db1ca137077.jpg" alt="2018/4/23 阴天"></p>
+<p>&lt;center&gt;<a href="http://www.w3school.com.cn/jquery/jquery_dom_get.asp" target="_blank" rel="noopener">资料来源</a></p>
+<h3>&lt;center&gt; 《jQuery 选择器》</h3>
+<p>&lt;center&gt;jquery元素选择器和属性选择器允许您通过标签名、属性名或内容对HTML元素进行选择。
+&lt;center&gt;- jquery元素选择器
+&lt;!-- more --&gt;</p>
+<h5>使用CSS选择器来选取HTML元素</h5>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;p&quot;)选取了p元素</span><br><span class="line">$(&quot;#intro&quot;)选取了id=”intro“的元素</span><br><span class="line">$(&quot;.intro&quot;)选取了class=&quot;intro&quot;的元素</span><br></pre></td></tr></table></figure></p>
+<h5>jquery属性选择器</h5>
+<p>使用XPath表达式来选择带有给定属性的元素。
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"[href]"</span>)选取所有带有href属性的元素。</span><br></pre></td></tr></table></figure></p>
+<h5>jqueryCSS选择器</h5>
+<p>可用于改变HTML元素的CSS属性
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;p&quot;).css(&quot;background-color&quot;,&quot;red&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3>&lt;center&gt; 《jQuery 事件》</h3>
+<p>$(document).ready(function) 将函数绑定到文档的就绪事件（document是固定的）
+$(selector).click(function) 触发或将函数绑定到被选元素的点击事件
+$(selector).dblclick(function)触发或将函数绑定到被选元素的双击事件
+$(selector).focus(function)触发或将函数绑定到被选元素的获得焦点事件
+$(selector).mouseover(function)触发或将函数绑定到被选元素的鼠标悬停事件</p>
+<h3>&lt;center&gt; 《jQuery HTML》</h3>
+<h5>jQuery获取和设置</h5>
+<p>jquery中非常重要的部分就是操作DOM的能力。</p>
+<h5>jquery text()和jquery html()方法可以来获得所选择的元素的内容</h5>
+<h5>jquery val()方法可以获得输入字段的值</h5>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;#btn&quot;).click(function()&#123;</span><br><span class="line">alert(&quot;Value:&quot; + $(&quot;#test&quot;).val());</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>通过上面的方法，可以得到Input框中的value值。</p>
+<h5>jquery attr()方法用来获取属性值</h5>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;button&quot;).click(function()&#123;</span><br><span class="line">alert($(&quot;#a&quot;).attr(&quot;href&quot;));</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>通过上面的方法，可以得到a标签中href属性值</p>
+<p>以上方法，当参数为空时则是获取功能，当传参时为设置功能。其中attr方法设置的时候，参数是键值对的方式，需要一个属性值和一个内容来对应。</p>
+<h5>jquery添加和删除</h5>
+<ul>
+<li>append()，在被选元素的结尾插入内容</li>
+<li>prepend()，在被选元素的开头插入内容</li>
+<li>after()，在被选元素之后插入内容</li>
+<li>before()，在被选元素之前插入内容</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
@@ -416,13 +455,19 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h2>Quick Start</h2>
+<h3>Create a new post</h3>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure></p>
+<p>&lt;!-- more --&gt;
+More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3>Run server</h3>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure></p>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h3>Generate static files</h3>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure></p>
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h3>Deploy to remote sites</h3>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure></p>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
       
@@ -467,14 +512,64 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/16 晴天"></p>
-<p><center>本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~</center></p>
-<h4 id="同源策略"><a href="#同源策略" class="headerlink" title=" 同源策略"></a><center> 同源策略</center></h4><p>要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。<br>
-        <!-- 
-本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~
- 同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/20/JS跨域之JSONP方式/#more">Read More</a>
-        </p>
+<p>&lt;center&gt;本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~
+&lt;!-- more --&gt;</p>
+<h4>&lt;center&gt; 同源策略</h4>
+<p>要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。</p>
+<p>一些常见的是否同源示例可参照下表：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-636780d70a19dd22?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>在同源策略下，在某个服务器下的页面是无法获取到该服务器以外的数据的。例如我们在自己的网站通过ajax去获取豆瓣提供的接口数据。即使是访问本地非JS文件的文件（比如.json文件）.</p>
+<p><strong><em>不过火狐可以正常读取到</em></strong>，原因是：虽然允许跨域很不安全，但是如果不跨域的话又带来很多不便，所以火狐是允许跨域的。</p>
+<p>为什么<strong><em>谷歌获取不到？</em></strong></p>
+<p>这里要提到一点，访问本地计算机中的文件，使用的是<strong><em>file协议</em></strong>，file协议主要用来访问本地计算机中的文件，就如同在windows资源管理器中打开文件一样，注意它是针对本地（本机）的，简单来说，file协议是访问你本机的文件资源。
+谷歌的报错可以在控制台明显看到：</p>
+<p><code>Cross origin requests are only supported for protocol schemes:http，data，chrome，chrome-extension，https</code></p>
+<p>实质上就是安全机制认为加载本地其他文件是跨域行为。谷歌浏览器会跨域失败，是因为浏览器安全机制不允许。</p>
+<p><strong><em>为什么谷歌不支持跨域？</em></strong>
+这是因为浏览器的安全策略，即禁止ajax访问本地的文件，这是不安全也是不允许的，举例的话，就相当于你访问了一个网站，这个网站可以读取到你本地的文件.......</p>
+<h4>&lt;center&gt; 跨域问题</h4>
+<p>Chrome真的很严格，对于Chrome来说，访问本地非js文件或者非同源地址都属于跨域行为，而火狐可以访问本地文件，但是访问非同源地址时还是跨域的行为。
+这类问题统称为跨域问题。</p>
+<h4>&lt;center&gt; JSON</h4>
+<p>JSON是一种数据存储格式，不懂得朋友可以自行<a href="https://www.baidu.com/" target="_blank" rel="noopener">百度</a>一下~</p>
+<h4>&lt;center&gt; JSONP的原理</h4>
+<p>JSONP是JSON的一种“使用模式”，可用于解决主流浏览器的跨域数据访问的问题，利用 script 元素的开放策略，网页可以得到从其他来源动态产生的JSON资料，而这种使用模式就是所谓的JSONP。用JSONP抓到的资料并不是JSON，而是任意的JAVAScript，用javascript直译器执行而不是用JSON解析器解析。</p>
+<p>动态创建 script 标签，设置其src，回调函数也在src中设置，例如：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;(http://....其他域地址)/(文件地址)?(可以写查询内容)&amp;(callback=(回调函数的名称))&quot;&gt;</span><br><span class="line">                          ||</span><br><span class="line"> &lt;script src=&quot;index.json?callback=indexDemo&quot;&gt;</span><br><span class="line">或者</span><br><span class="line">&lt;script src=&quot;https://api.douban.com/va/book/search?q=javascript&amp;count=1&amp;callback=handleResponse&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在页面中，返回的JSON作为参数传入回调函数中，我们通过回调函数来操作数据。
+这里需要注意的是，JSON文件中的数据格式如下：</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">这里json数据前面的名称要和第一条script标签中的callback里的函数名称一样</span><br><span class="line">indexDemo(&#123;</span><br><span class="line">&quot;hello&quot;:&quot;bye&quot;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>用过该方法的朋友会发现JSON文件会报错，先别着急否定这个方法，先读一遍下面这段话~（诡异脸）</p>
+<p>根据上述过程总结的话，JSONP的原理如下：</p>
+<ul>
+<li>首先在客户端注册一个callback，然后把callback的名字传给服务器。</li>
+<li>此时服务器先生成JSON数据</li>
+<li>然后以JS语法的方式，生成一个function，function名字就是传递上来的参数jsonp</li>
+<li>最后将json数据直接以入参的方式，放置到function中，这样就生成了一段Js语法的文档，返回给客户端。</li>
+<li>客户端浏览器，解析script标签，并执行返回的Js文档，此时数据作为参数，传入到了客户端预先定义好的callback函数里。</li>
+</ul>
+<p>看到这里，会不会有一种焕然大悟的感觉~原来.json文件中放置的是一个函数，只有是函数，才可以将json数据以入参的方式，放置到function中。</p>
+<h4>&lt;center&gt; JSONP的优缺点</h4>
+<h4>优点</h4>
+<ul>
+<li>比XML轻了很多，没有那么多冗余的东西。</li>
+<li>JSON具有很好的可读性，但是通常返回的都是压缩过后的，不像XML这样的浏览器可以直接显示，浏览器对于JSON的格式化显示就需要借助一些插件了。</li>
+<li>在JS中处理JSON很简单</li>
+<li>其他语言，例如PHP对于JSON的支持也不错</li>
+</ul>
+<h4>缺点</h4>
+<ul>
+<li>JSON在服务端语言的支持不像XML那么广泛，不过JSON.org上提供很多语言的库（我并不懂这句话，以后再做研究）</li>
+<li>如果你使用eval（）来解析的话，会容易出现安全问题（依旧不懂，以后遇到再来补充~）</li>
+</ul>
+<h4>补充</h4>
+<p>JSONP是很强大的，但不是所有跨域通信需求的万灵药，还是建议可以学会使用node或其他后端语言来配合完成跨域的方法~（虽然我也还没学会，学会就会更新在博客里）</p>
+<p>第一，也是最重要的一点，没有关于JSONP调用的错误处理，如果动态脚本插入有效，就执行调用；如果无效，就静默失败。失败是没有任何提示的，服务器既不会捕捉到404错误，也不会取消或者重新开始请求。</p>
+<p>第二，被不信任的服务使用时会很危险，因为JSONP服务返回打包在函数调用中的JSON相应，而函数调用是由浏览器执行的，这使宿主web应用程序更容易受到各类攻击，如果打算使用JSONP服务，了解它能造成的威胁非常重要。</p>
+<p><strong><em>参考网址</em></strong>
+<a href="https://blog.csdn.net/u014607184/article/details/52027879" target="_blank" rel="noopener">轻松搞定JSONP跨域请求</a>
+<a href="http://justcoding.iteye.com/blog/1366102" target="_blank" rel="noopener">AJAX跨域请求—JSONP获取JSON数据</a></p>
+
       
     </div>
     <footer class="article-footer">
@@ -516,17 +611,32 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=4f3dfbe8347adab43dd01b4bbbd5b36b/43058acad1c8a7867e3302ce6509c93d71cf50eb.jpg" alt="2018 忘了哪月哪日 应该是阴天"></p>
-<h3 id="堆和栈的区别？"><a href="#堆和栈的区别？" class="headerlink" title=" 堆和栈的区别？"></a><center> 堆和栈的区别？</center></h3><p><center> <a href="https://www.zhihu.com/question/19729973" target="_blank" rel="noopener">资料原文</a></center></p>
-<h5 id="栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。"><a href="#栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。" class="headerlink" title=" 栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。"></a><center> 栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。</center></h5><h5 id="堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。"><a href="#堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。" class="headerlink" title=" 堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。"></a><center> 堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。</center></h5><p><br></p>
-<h4 id="区别和联系："><a href="#区别和联系：" class="headerlink" title="区别和联系："></a><center>区别和联系：</center></h4><h5 id="申请方式："><a href="#申请方式：" class="headerlink" title="- 申请方式："></a>- 申请方式：</h5><p>堆：由程序员自己申请并指明大小，比如在c中malloc函数，如p1 = (char*)malloc(10);<br>栈：由系统自动分配，如声明在函数中一个局部变量int b;系统自动在栈中为b开辟空间。<br>
-        <!-- 
- 堆和栈的区别？ 资料原文
- 栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。 堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。
-区别和联系：- 申请方式：堆：由程序员自己申请并指明大小，比如在c中malloc函数，如p1 = (char*)malloc(10);栈：由系统自动分配，如声明在函......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/20/堆和栈的区别（待补充）/#more">Read More</a>
-        </p>
+        <p><img src="https://imgsa.baidu.com/forum/w%3D580%3B/sign=5d0ed35d1c3853438ccf8729a328b07e/d4628535e5dde711f8cb63c7abefce1b9d1661e1.jpg" alt="2018 忘了哪月哪日 应该是阴天"></p>
+<h3>&lt;center&gt; 堆和栈的区别？</h3>
+<p>&lt;center&gt; <a href="https://www.zhihu.com/question/19729973" target="_blank" rel="noopener">资料原文</a></p>
+<h5>&lt;center&gt; 栈区（stack）——由编译器自动分配释放，存放函数的参数值、局部变量的值等，其操作方式类似于数据结构中的栈。</h5>
+<h5>&lt;center&gt; 堆区（heap）——一般由程序员分配释放，若程序员不是放，程序结束时可能由OS回收。</h5>
+<p>&lt;!-- more --&gt;
+&lt;br&gt;</p>
+<h4>&lt;center&gt;区别和联系：</h4>
+<h5>- 申请方式：</h5>
+<p>堆：由程序员自己申请并指明大小，比如在c中malloc函数，如p1 = (char*)malloc(10);
+栈：由系统自动分配，如声明在函数中一个局部变量int b;系统自动在栈中为b开辟空间。</p>
+<h5>- 申请后系统的响应</h5>
+<p>栈：只要栈的剩余空间大于所申请空间，系统将为程序提供内存，否则将报异常提示栈溢出。
+堆：首先应该知道操作系统有一个记录空闲内存地址的链表，当系统收到程序的申请时，会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序。另外，对于大多数系统，会在这块内存空间中的首地址处记录本次分配的大小，这样，代码中的delete语句才能正确的释放本地内存空间。另外，由于找到的堆结点的大小不一定正好等于申请的大小，系统会自动的将多余的那部分重新放入空闲链表中。</p>
+<h5>- 申请大小的限制</h5>
+<p>栈：在windows下，栈是向低地址扩展的数据结构，是一块连续的内存的区域。即栈顶的地址和栈的最大容量是系统预先规定好的，在windows下，栈的大小是iM（i&lt;=2，是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow，因此，能从栈获得的空间较小。
+堆：堆是向高地址扩展的数据结构，是不连续的内存区域，这是由于系统是用链表来存储空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存，由此可见，堆获得的空间比较灵活，也比较大。</p>
+<h5>- 申请效率的比较</h5>
+<p>栈是由系统自动分配，速度较快，但程序员是无法控制的。
+堆是由new分配的内存，一般速度比较慢，而且容易产生内存碎片，但是用起来最方便。
+&lt;br&gt;</p>
+<h4>&lt;center&gt;总结：</h4>
+<h5>&lt;center&gt; 使用栈就像我们去饭馆里吃饭，只管点菜、付钱和吃，吃饱了就走，不必理会切菜、洗菜等准备工作和洗碗、刷锅等扫尾工作，好处是快捷，但是自由度小</h5>
+<h5>&lt;center&gt; 使用堆就像是自己动手做喜欢吃的菜肴，比较麻烦，但是比较符合自己的口味，并且自由度大。</h5>
+<p>&lt;br&gt;</p>
+
       
     </div>
     <footer class="article-footer">
@@ -568,7 +678,7 @@
           </span>
         </div>
         <div class="powered-by">
-        </i><span ion-stop-event="busuanzi_container_site_pv">
+        </i class="fa fa-user-md"><span ion-stop-event="busuanzi_container_site_pv">
           本站点击数：<span id="busuanzi_value_site_pv"></span>
       
         </span>

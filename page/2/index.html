@@ -306,16 +306,297 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=4dfad5bbd31373f0f53f6f97940d4b8b/4beffffe9925bc31c0d94c585cdf8db1ca137000.jpg" alt="2018/4/18 晴天"></p>
-<h3 id="图片懒加载"><a href="#图片懒加载" class="headerlink" title=" 图片懒加载"></a><center> 图片懒加载</center></h3><p><center><a href="https://www.cnblogs.com/flyromance/p/5042187.html" target="_blank" rel="noopener">引用源文</a></center></p>
-<h5 id="什么叫图片懒加载？"><a href="#什么叫图片懒加载？" class="headerlink" title="- 什么叫图片懒加载？"></a>- 什么叫图片懒加载？</h5><p>当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。</p>
-<h5 id="为什么要使用这个技术？"><a href="#为什么要使用这个技术？" class="headerlink" title="- 为什么要使用这个技术？"></a>- 为什么要使用这个技术？</h5><p>如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头部又依赖这个js文件，那就凉凉了；最重要的是，这么多的请求，服务器可能会吃不消。<br>
-        <!-- 
- 图片懒加载引用源文
-- 什么叫图片懒加载？当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。
-- 为什么要使用这个技术？如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/18/JS常见面试题/#more">Read More</a>
-        </p>
+<h3>&lt;center&gt; 图片懒加载</h3>
+<p>&lt;center&gt;<a href="https://www.cnblogs.com/flyromance/p/5042187.html" target="_blank" rel="noopener">引用源文</a></p>
+<h5>- 什么叫图片懒加载？</h5>
+<p>当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。
+&lt;!-- more --&gt;</p>
+<h5>- 为什么要使用这个技术？</h5>
+<p>如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头部又依赖这个js文件，那就凉凉了；最重要的是，这么多的请求，服务器可能会吃不消。</p>
+<h5>- 怎么实现？</h5>
+<ul>
+<li>页面中的ig元素，如果没有src属性，浏览器就不会发出请求去下载图片，一旦通过js设置了图片路径，浏览器才会发送请求。（有点按需分配的意思）</li>
+<li>把真正的路径存在元素的“data-url”（自己取个名字）属性里，要用的时候就取出来，再设置。</li>
+<li>获取某个元素的尺寸大小、滚动条滚动距离以及偏移位置距离的方法：
+<ul>
+<li>屏幕可视窗口大小：
+原生方法：window.innerHeight 标准浏览器及IE9 || document.documentElement.scrollTop标准浏览器及低版本IE标准模式|| document.body.clientHeight 低版本混杂模式
+jQuery方法：$(window).height()</li>
+<li>浏览器窗口顶部与文档顶部之间的距离，也就是滚动条滚动的高度
+　　 原生方法：window.pagYoffset——IE9+及标准浏览器 || document.documentElement.scrollTop 兼容ie低版本的标准模式 || document.body.scrollTop 兼容混杂模式；
+jQuery方法：$(document).scrollTop();</li>
+</ul>
+</li>
+</ul>
+<p>- 获取元素的尺寸，左边jquery方法，右边原生方法
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(o).width() = o.style.width; </span><br><span class="line"></span><br><span class="line">$(o).innerWidth() = o.style.width+o.style.padding;</span><br><span class="line"></span><br><span class="line">$(o).outerWidth() = o.offsetWidth = o.style.width+o.style.padding+o.style.border;</span><br><span class="line"></span><br><span class="line">$(o).outerWidth(true) = o.style.width+o.style.padding+o.style.border+o.style.margin;</span><br></pre></td></tr></table></figure></p>
+<p>注意：要使用原生的style.xxx方法获取属性，这个元素必须已经有内嵌的样式，如
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;....&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如果原先是通过外部或内部样式表定义css样式，必须使用以下方法来获取样式值：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">o.currentStyle[xxx] || document.defaultView.getComputedStyle(0)[xxx]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>获取元素的位置信息</li>
+</ul>
+<p>1 返回元素相对于文档document顶部、左边的距离；
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　jQuery：$(o).offset().top元素距离文档顶的距离，$(o).offset().left元素距离文档左边缘的距离</span><br></pre></td></tr></table></figure></p>
+<p>原生：getoffsetTop()返回的元素相对于第一个以定位的父元素的偏移距离，注意与上面偏移距的区别；
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jQuery：position()返回一个对象，$(o).position().left = style.left，$(o).position().top = style.top；</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>如何判断某个元素进入或者即将进入可视窗口区域？
+就是根据对象的边界与可视窗口边界相对距离的大小来判断。</li>
+</ul>
+<h3>&lt;center&gt; 事件委托和事件捕获</h3>
+<p>&lt;center&gt;<a href="https://www.jianshu.com/p/f937db28b007" target="_blank" rel="noopener">阻止事件委托和事件捕获</a>
+&lt;center&gt;<a href="https://blog.csdn.net/u013035060/article/details/60770477" target="_blank" rel="noopener">源文来源</a></p>
+<h5>&lt;center&gt; 概述</h5>
+<p>&lt;right&gt;事件委托还有一个名字叫事件代理，利用事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件。举个例子更生动：
+有三个同事预计会在周一收到快递，为签收快递，有两种方法：一是三个人在公司门口等快递；二是委托给前台MM签收。现实当中，我们大都采用委托的方案（公司也不会容忍那么多员工站在门口就为了等快递）。前台MM收到快递后，她会判断收件人是谁，然后按照收件人的要求签收，甚至代为付款。这种方案还有一个优势，那就是即使公司里来了新员工（不管多少），前台MM也会在收到寄给新员工的快递后核实并代为签收。
+这里其实还有2层意思的：
+第一，现在委托前台的同事是可以代为签收的，即程序中的现有的dom节点是有事件的；
+第二，新员工也是可以被前台MM代为签收的，即程序中新添加的dom节点也是有事件的。</p>
+<ul>
+<li>为什么要用事件委托：
+避免多次DOM操作，减少dom与页面的交互次数，提高性能，节省空间。</li>
+</ul>
+<h5>&lt;center&gt; 事件委托的原理：</h5>
+<p>&lt;center&gt;利用事件的冒泡，（什么是事件冒泡呢：就是事件从最深的节点开始，然后逐步向上传播事件）</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id=&quot;ul1&quot;&gt;</span><br><span class="line">    &lt;li&gt;111&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;222&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;333&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;444&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">传统的li实现点击功能：</span><br><span class="line">window.onload = function()&#123;</span><br><span class="line">    var oUl = document.getElementById(&quot;ul1&quot;);</span><br><span class="line">    var aLi = oUl.getElementsByTagName(&apos;li&apos;);</span><br><span class="line">    for(var i=0;i&lt;aLi.length;i++)&#123;</span><br><span class="line">        aLi[i].onclick = function()&#123;</span><br><span class="line">            alert(123);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">通过遍历所有的Li绑定好点击事件。</span><br><span class="line"></span><br><span class="line">接下来是利用事件委托：</span><br><span class="line">window.onload = function()&#123;</span><br><span class="line">    var oUl = document.getElementById(&quot;ul1&quot;);</span><br><span class="line">   oUl.onclick = function()&#123;</span><br><span class="line">        alert(123);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">这里用父级ul做事件处理，当li被点击时，由于冒泡原理，事件就会冒泡到ul上，因为ul上有点击事件，所以事件</span><br><span class="line">就会被触发。如果想让事件代理的效果跟直接给节点的事件效果一样时，我们还有一招：</span><br><span class="line"></span><br><span class="line">Event对象提供了一个属性叫target，可以返回事件的目标节点，标准浏览器用event.target，IE浏览器用</span><br><span class="line">event.srcElement，此时只是获取了当前节点的位置，并不知道什么节点名称，这里再用nodeName来获取具体</span><br><span class="line">是什么标签名，返回值是一个大写的字符串。</span><br><span class="line">代码如下：</span><br><span class="line"></span><br><span class="line">window.onload = function()&#123;</span><br><span class="line">　　var oUl = document.getElementById(&quot;ul1&quot;);</span><br><span class="line">　　oUl.onclick = function(ev)&#123;</span><br><span class="line">　　　　var ev = ev || window.event;</span><br><span class="line">　　　　var target = ev.target || ev.srcElement;</span><br><span class="line">　　　　if(target.nodeName.toLowerCase() == &apos;li&apos;)&#123;</span><br><span class="line">　 　　　　　　 alert(123);</span><br><span class="line">　　　　　　　  alert(target.innerHTML);</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3>&lt;center&gt; 事件捕获的执行顺序</h3>
+<p>首先强调事件绑定时的兼容性写法：
+IE8及更早版本需要用attachEvent()，正常版本用addEventListener()，对于兼容写法，如下:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var x = document.getElementById(&quot;myBtn&quot;);</span><br><span class="line"></span><br><span class="line">if (x.addEventListener) &#123;                    //所有主流浏览器，除了 IE 8 及更早 IE版本</span><br><span class="line"></span><br><span class="line">    x.addEventListener(&quot;click&quot;, myFunction);</span><br><span class="line"></span><br><span class="line">&#125; else if (x.attachEvent) &#123;                  // IE 8 及更早 IE 版本</span><br><span class="line"></span><br><span class="line">    x.attachEvent(&quot;onclick&quot;, myFunction);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">其中element.addEventListener(event，function，useCapture)方法中，event不要使用on前缀，function</span><br><span class="line">指定要事件触发时执行的函数；useCapture可选，是布尔值，指定事件是否在捕获或冒泡阶段执行。</span><br></pre></td></tr></table></figure></p>
+<p>事件冒泡和事件捕获的过程正好相反，</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;div1&quot;&gt;我是div1&lt;/div&gt;</span><br><span class="line">&lt;div id=&quot;div2&quot;&gt;我是div2&lt;/div&gt;</span><br><span class="line">&lt;div id=&quot;div3&quot;&gt;我是div3&lt;/div&gt;</span><br><span class="line">&lt;div id=&quot;div4&quot;&gt;我是div4&lt;/div&gt;</span><br><span class="line">var div1=document.getElementById(&quot;div1&quot;);</span><br><span class="line"></span><br><span class="line">var div2=document.getElementById(&quot;div2&quot;);</span><br><span class="line"></span><br><span class="line">var div3=document.getElementById(&quot;div3&quot;);</span><br><span class="line"></span><br><span class="line">var div4=document.getElementById(&quot;div4&quot;);</span><br><span class="line"></span><br><span class="line">div1.addEventListener(&quot;click&quot;,function()&#123;</span><br><span class="line"></span><br><span class="line">alert(&quot;我是div1&quot;);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div2.addEventListener(&quot;click&quot;,function()&#123;</span><br><span class="line"></span><br><span class="line">alert(&quot;我是div2&quot;);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div3.addEventListener(&quot;click&quot;,function()&#123;</span><br><span class="line"></span><br><span class="line">alert(&quot;我是div3&quot;);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">div4.addEventListener(&quot;click&quot;,function()&#123;</span><br><span class="line"></span><br><span class="line">alert(&quot;我是div4&quot;);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">当所有的Li标签绑定的事件的useCapture都是true，则点击第四个div时，会依次显示1-2-3-4，而如果是冒泡的</span><br><span class="line">话，显示的结果应该是4-3-2-1</span><br><span class="line"></span><br><span class="line">如果一个dom元素中，既有冒泡，又有捕获的话，会这么执行呢？W3C规定，任何发生在W3C模型中的事件，首先</span><br><span class="line">进入捕获阶段，直到达到目标元素，再进入冒泡阶段。</span><br></pre></td></tr></table></figure></p>
+<h3>&lt;center&gt; JS数组方法</h3>
+<p>&lt;br&gt;</p>
+<h5>&lt;center&gt; join()</h5>
+<p>&lt;center&gt;Array.join()是string.split()的逆向操作</p>
+<h5>&lt;center&gt; reverse()</h5>
+<p>&lt;center&gt;将数组元素全部倒过来</p>
+<h5>&lt;center&gt; sort()</h5>
+<p>&lt;center&gt;排序，可以在括号里写排序的规则</p>
+<h5>&lt;center&gt; cancat()</h5>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1，2，3];</span><br><span class="line">arr.concat(4,5);</span><br><span class="line">得到一个新的数组arr = [1，2，3，4，5]</span><br></pre></td></tr></table></figure></p>
+<h5>&lt;center&gt; slice(start,end)</h5>
+<p>&lt;center&gt;返回数组片段，不需要变量接收</p>
+<h5>&lt;center&gt; splice()</h5>
+<p>&lt;center&gt; 删除，插入，替换。
+这个方法的功能很多，参数的不同决定功能的不同；</p>
+<h5>删除的用法，array.splice(starti,n)，其中starti的含义是从哪个位置开始，n指的是需要删除的个数。</h5>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;  </span><br><span class="line">    var array=[1,2,3,4,5];  </span><br><span class="line">    array.splice(3,2);  </span><br><span class="line">    console.log(array);  </span><br><span class="line">&lt;/script&gt;  </span><br><span class="line">得到的结果是：[1,2,3]，这里被删除的元素其实可以用一个变量来接收</span><br></pre></td></tr></table></figure></p>
+<h5>插入的用法，array.splice(starti，0，值1，值2......)，其中0表示删除0个元素，值1和值2表示需要插入的值。</h5>
+<h5>替换的用法，array.splice(starti，n，值1，值2)，在需要替换的位置先删除，然后再插入值~</h5>
+<p>&lt;br&gt;</p>
+<h4>&lt;center&gt; 把数组当栈使用</h4>
+<p>&lt;center&gt;push()，尾部添加
+&lt;center&gt;unshift()，头部添加
+&lt;center&gt;pop()，尾部删除
+&lt;center&gt;shift()，头部删除</p>
+<ul>
+<li>遍历
+for...in...（除了可以遍历数组，还可以遍历对象的键值对）</li>
+<li>indexof（）从左向右索引，
+lastIndexof恰好相反，是从右向左索引。</li>
+<li>数组去重
+数组去重的方法很多，比如利用一个for循环，在里面用indexof的返回值来判断是否有重复，有的话就删除，没有的话继续；或者是两个循环遍历一次。很多方法~</li>
+</ul>
+<h3>&lt;center&gt; 实现拖拽功能</h3>
+<p>&lt;br&gt;
+原理：
+1 鼠标按下时，开始执行
+2 鼠标按下后，鼠标开始移动时，需要拖拽的元素跟着一起移动
+3 鼠标松开，然后停止移动
+对应的三个事件就是：
+1 onmousedown
+2 onmousemove
+3 onmouseup
+在鼠标按下时，记录当前元素的位置newSite，同时设置一个标记，用来表示此时鼠标按下的状态，方便鼠标移动事件执行。
+当鼠标松开时，我们要将标记改变，说明此时鼠标松开了，当鼠标移动时就不能再移动元素了。
+当鼠标按下并且移动时，我们就要记录鼠标每次移动的位置currentSite，currentSite和newSite的差值就是鼠标移动的距离，同时也是元素应该移动的距离，然后设置元素的位置就可以了。
+这里需要注意的是，需要移动的元素的Position属性应该设为absolute或者relative，这样元素才可以移动。
+其中目标元素的初始位置都从CSS样式中提取。</p>
+<h3>&lt;center&gt; 实现Gulp的功能</h3>
+<p>&lt;br&gt;
+&lt;center&gt;<a href="https://blog.csdn.net/qingyafan/article/details/52231383" target="_blank" rel="noopener">参考源文</a>
+前端优化中的一条是，尽量缩小js，html，css和图片等静态文件的尺寸，因为每个文件都将会有一个http请求，在下载的过程中，浏览器会停止所有手头工作，专心下载，直到完成，才会做其他事情。而gulp主要就是自动化压缩静态文件的工具。</p>
+<ul>
+<li>
+<p>特点：1 相对于其他构建工具，gulp以“管道和文件流”的处理方式标榜自己。数据流是gulp的基础，读取磁盘文件流，处理文件流，最后将文件流写入磁盘文件，完成任务。管道的思想来源于Unix，举个例子，水在管道中，我把管道接到哪里，水就可以流到哪里，也就是说，我可以利用多根管道，让水流过多个地方，这样多个地方都可以用到水。
+2 gulp的另一个特点是它的模块插件，其主张“每个模块插件只应该做一件事”，gulp只提供比较简单的基础功能，或者说“给它的插件提供一个平台”，大部分工作都是其插件在其提供的“平台”之上完成的。
+#####- 内容
+gulp一共有四个方法或者说API，</p>
+</li>
+<li>
+<p>gulp.src(glob[s][,options])，读取磁盘文件，并返回文件流，glob是字符串表示的文件通配符，类似正则表达式，可以是字符串或者是glob数组。</p>
+</li>
+<li>
+<p>gulp.dest(path[,options])，将管道中的文件流写入文件，因为我们可以使用多根管道，因此我们当然可以多次调用dest方法，path是写入文件的路径。</p>
+</li>
+<li>
+<p>gulp.task(name[,deps],[,fn])，定义具体的任务，name是字符串类型的任务名，如果name是“default”，那么在命令行直接输入gulp，默认会执行这个任务；deps表示依赖的任务，是任务名字符串数组，也就是说deps任务执行完才会执行name任务；fn是执行完name指定的任务后的回调函数。</p>
+</li>
+<li>
+<p>gulp.watch(glob[s][,options],tasks)或者gulp.watch(glob[,options,cb])，相当于一个观察者，一旦在其管辖下的文件有所变动，执行一个或多个任务，glob是字符串或者glob数组；watch有两种形式，tasks表示事件触发时要执行的任务数组，cb表示事件触发时的回调函数，传入回调函数的参数是事件对象，返回观察者对象，该对象可以监听change，end，ready，error，ready，nomatch事件。</p>
+</li>
+</ul>
+<h5>- 常用功能及其插件</h5>
+<p>1 gulp-jshint，检查js的错误
+2 gulp-uglify，压缩js
+3 gulp-minify-css，压缩css</p>
+<ul>
+<li>
+<p>gulpfile配置文件
+gulpfile是定义gulp任务的地方，它所遵循的commonjs规范和js文件模块并无二致，在gulpfile中定义的任务，我们可以在命令行中调用，调用语法为 gulp takename，如果不带taskname参数，默认执行名为default的任务。</p>
+</li>
+<li>
+<p>gulp自动化实例
+在gulpfile中引入需要的模块，如：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const gulp = require(&apos;gulp&apos;);</span><br><span class="line">const jshint = require(&apos;gulp-jshint&apos;);</span><br><span class="line">const uglify = require(&apos;gulp-uglify&apos;);</span><br><span class="line">const minifyCss = require(&apos;gulp-minify-css&apos;);</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>检查语法或者其他错误（jshint）
+检查 JavaScript 文件是否存在错误或者可能会引起错误的地方，例如一般比较应该使用===/!==代替==/!=，字符串换行拼接应在行末添加连接符+等等。gulp-jshint 并不能独自完成这项艰巨的任务，它依赖于真正的大将 jshint，gulp-jshint 只不过加了一层包裹，使之可以在 gulp 中使用，所以不仅应该安装 gulp-jshint 依赖，还应该添加 jshint 依赖：npm install --save-dev jshint gulp-jshint。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// check javascript error or warnning</span><br><span class="line">gulp.task(&apos;jshint&apos;, function() &#123;</span><br><span class="line">  gulp.src(&apos;./scripts/apps/*.js&apos;)</span><br><span class="line">      .pipe(&apos;jshint&apos;)</span><br><span class="line">      .pipe(jshint.reporter(&apos;default&apos;));</span><br><span class="line">&#125;);</span><br><span class="line">执行 gulp jshint，看疗效如下：</span><br></pre></td></tr></table></figure></p>
+</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/8542482-ccfbae49588870d7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<ul>
+<li>压缩JS文件
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// minify javascript file from apps folder to scripts/dist folder</span><br><span class="line">gulp.task(&apos;minifyjs&apos;, function() &#123;</span><br><span class="line">  gulp.src(&apos;./scripts/apps/*.js&apos;)</span><br><span class="line">      .pipe(uglify())</span><br><span class="line">      .pipe(gulp.dest(&apos;./scripts/dist&apos;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>经过上面对 gulp API 的介绍，你应该能理解这段代码，定义一个名为‘minifyjs’的任务，可以在命令行通过 gulp minifyjs进行调用。任务首先读取 ./scripts/apps 文件夹中的所有以 .js 后缀结尾的文件，然后使用管道将流导入 uglify() 加工，最后再通过管道将加工好的流写入到 ./scripts/dist 文件夹中，名称不变，如果 ./scripts/dist 文件夹不存在，那么 gulp 会主动创建，如果 ./scripts/apps 文件夹不存在，那么 gulp 什么也不做，也不报错【笑】！执行效果如下:
+<img src="http://upload-images.jianshu.io/upload_images/8542482-62fa73ee3afc69cf?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<ul>
+<li>
+<p>压缩合并CSS文件
+css 压缩任务和 JavaScript 压缩任务几乎相同，就不多加解释了。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// minify css file from css folder to css/dist folder</span><br><span class="line">gulp.task(&apos;minifycss&apos;, function() &#123;</span><br><span class="line">  gulp.src(&apos;./styles/*.css&apos;)</span><br><span class="line">      .pipe(minifyCss())</span><br><span class="line">      .pipe(gulp.dest(&apos;./styles/dist&apos;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>监控代码改变
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(&apos;watchchange&apos;, function() &#123;</span><br><span class="line">  gulp.watch(&apos;./scripts/apps/*.js&apos;, [&apos;minifyjs&apos;]);</span><br><span class="line">  gulp.watch(&apos;./styles/*.css&apos;, [&apos;minifycss&apos;]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+</li>
+</ul>
+<h3>&lt;center&gt; promise的实现原理</h3>
+<p><a href="https://mengera88.github.io/2017/05/15/promise%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">资料源文</a></p>
+<ul>
+<li>什么是promise？
+promise是把类似异步处理对象和处理规则进行规范化，并按照采用统一的接口来编写，而采取规定方法之外的写法都会报错。例如：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var promise = http.get(&apos;/v1/get&apos;);</span><br><span class="line">promise.then(function(result) &#123;</span><br><span class="line">    //成功时的处理</span><br><span class="line">&#125;).catch(function(error) &#123;</span><br><span class="line">    //错误时的处理</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>我们必须按照接口规定的方法编写处理代码。也就是说，除promise对象规定的方法(这里的 then 或 catch)以外的方法都是不可以使用的， 而不会像回调函数方式那样可以自己自由的定义回调函数的参数，而必须严格遵守固定、统一的编程方式来编写代码。这样，基于Promise的统一接口的做法， 就可以形成基于接口的各种各样的异步处理模式。
+但这并不是使用promise的足够理由，promise为异步操作提供了统一的接口，能让代码不至于陷入回调嵌套的死路中，它的强大之处在于它的链式调用（文章后面会有提及）。</p>
+<ul>
+<li>基本用法
+promise的语法：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new Promise(function(resolve, reject) &#123;</span><br><span class="line">    //待处理的异步逻辑</span><br><span class="line">    //处理结束后，调用resolve或reject方法</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>新建一个promise很简单，只需要new一个promise对象即可。所以promise本质上就是一个函数，它接受一个函数作为参数，并且会返回promise对象，这就给链式调用提供了基础。
+其实Promise函数的使命，就是构建出它的实例，并且负责帮我们管理这些实例。而这些实例有以下三种状态：</p>
+<p>1 pending: 初始状态，位履行或拒绝
+2 fulfilled: 意味着操作成功完成
+3 rejected: 意味着操作失败</p>
+<p>pending 状态的 Promise对象可能以 fulfilled状态返回了一个值，也可能被某种理由（异常信息）拒绝（reject）了。当其中任一种情况出现时，Promise 对象的 then 方法绑定的处理方法（handlers）就会被调用，then方法分别指定了resolve方法和reject方法的回调函数。
+<img src="http://upload-images.jianshu.io/upload_images/8542482-8cc5795fed1e4d8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+简单的示例：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">  if (/* 异步操作成功 */)&#123;</span><br><span class="line">    resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">promise.then(function(value) &#123;</span><br><span class="line">  // 如果调用了resolve方法，执行此函数</span><br><span class="line">&#125;, function(value) &#123;</span><br><span class="line">  // 如果调用了reject方法，执行此函数</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>promise的链式操作
+Promise.prototype.then方法返回的是一个新的Promise对象，因此可以采用链式写法。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getJSON(&quot;/visa.json&quot;).then(function(json) &#123;</span><br><span class="line">  return json.name;</span><br><span class="line">&#125;).then(function(name) &#123;</span><br><span class="line">  // proceed</span><br><span class="line">&#125;);</span><br><span class="line">上面的代码使用then方法，依次指定了两个回调函数。第一个回调函数完成以后，会将返回结果作为参数，传入第二个回调函数。</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>如果前一个回调函数返回的是Promise对象，这时后一个回调函数就会等待该Promise对象有了运行结果，才会进一步调用。例如：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getJSON(&quot;/visa/get.json&quot;).then(function(post) &#123;</span><br><span class="line">  return getJSON(post.jobURL);</span><br><span class="line">&#125;).then(function(jobs) &#123;</span><br><span class="line">  // 对jobs进行处理</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这种设计使得嵌套的异步操作，可以被很容易得改写，从回调函数的“横向发展”改为“向下发展”。</p>
+<h3>&lt;center&gt; webpack</h3>
+<p><a href="https://www.webpackjs.com/concepts/" target="_blank" rel="noopener">资料源文</a>
+webpack的功能就如它的官网所示——打包所有的资源、脚本、样式、图片。
+<img src="https://upload-images.jianshu.io/upload_images/8542482-42aad8702ce073e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TIM图片20180331222517.png">
+注意下面的两句英文：依赖模型   和  静态资产</p>
+<ul>
+<li>首先理解四个核心概念
+1 入口
+2 输出
+3 loader
+4 插件</li>
+</ul>
+<p>#####1 入口
+入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的。我们看一个 entry 配置的最简单例子：
+webpack.config.js
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &apos;./path/to/my/entry/file.js&apos;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h5>2 出口</h5>
+<p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件。你可以通过在配置中指定一个 output 字段，来配置这些处理过程：
+webpack.config.js
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &apos;./path/to/my/entry/file.js&apos;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">    filename: &apos;my-first-webpack.bundle.js&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>Gulp和Webpack的区别：
+gulp是基于流的构建工具：all in one的打包模式，输出一个js文件和一个css文件，优点是减少http请求，万金油方案。
+webpack是模块化管理工具，使用webpack可以对模块进行压缩、预处理、打包、按需加载等。</li>
+</ul>
+<h3>&lt;center&gt; 浅克隆和深克隆和ES6的Symbol</h3>
+<p><a href="https://juejin.im/post/5abd8ee1518825558a06b827" target="_blank" rel="noopener">资料来源</a></p>
+<ul>
+<li>浅度克隆
+js有六大数据类型：number，string，boolean，undefined，null，object
+其中number，string，boolean，undefined，null归为原始值一类，而object属于引用值，具体包括狭义的object，array，function。
+浅克隆在克隆对象和数组时会克隆它们的地址，之后改变目标时，克隆得到的结果也会随着操作而改变，因为他们指向的都是同一个空间，通过一个对象在这个空间里面加了东西，另一个对象也必然会受到影响。
+而对于函数而言，通过上面这种普通的赋值拷贝，就可以实现，且互不影响，因为函数的克隆会在内存中单独开辟一块空间。</li>
+</ul>
+<p>-深度克隆
+先整理一下思路：
+1 遍历待拷贝的对象
+2 判断每个元素是不是原始值，若是，则通过浅度克隆的手段进行拷贝
+3 若是引用值，则需要继续判断是对象还是数组
+4 再分别建立空数组或空对象用来盛放里面即将拷贝而来的属性值
+5 数组和对象里面的若是原始值，则浅拷贝即可实现，若还有引用值，则还需要重复进行上述一系列的判断。</p>
+<p>上述思路怎么用代码实现呢？
+1 使用for in进行遍历。但需要注意的是，for in方法会把对象原型里的属性也一起遍历了，所以要与hasOwnProperty()方法进行联用，hasOwnProperty()方法可以判断某属性是不是该对象自己的属性，从而过滤掉原型中的属性。
+2 用typeof()返回值来进行判断，数组和对象的typeof返回值是'object'
+3 用toString（）方法来判断是对象还是数组
+4 创建新的{}或者[]
+5 重复判断，可以采用递归
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">代码如下：</span><br><span class="line">function deepClone(origin, target) &#123;</span><br><span class="line">	var target = target || &#123;&#125;,</span><br><span class="line">		toStr = Object.prototype.toString,</span><br><span class="line">		arrStr = &apos;[object Array]&apos;;</span><br><span class="line">	for (var prop in origin) &#123;</span><br><span class="line">		if (origin.hasOwnProperty(prop)) &#123;</span><br><span class="line">			if (typeof (origin[prop]) == &apos;object&apos; &amp;&amp; origin[prop] !== null) &#123;</span><br><span class="line">				if (toStr.call(origin[prop]) == arrStr) &#123;</span><br><span class="line">					target[prop] = [];</span><br><span class="line">				&#125; else &#123;</span><br><span class="line">					target[prop] = &#123;&#125;;</span><br><span class="line">				&#125;</span><br><span class="line">				deepClone(origin[prop], target[prop]);</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				target[prop] = origin[prop];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return target;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">作者：Aden_Z</span><br><span class="line">链接：https://juejin.im/post/5abd8ee1518825558a06b827</span><br><span class="line">来源：掘金</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure></p>
+<p>注意到origin[prop] !== null这句了么？为啥要加上它，因为typeof(null)也是'object'。</p>
+<h5>- 针对ES6新增的Symbol类型来探讨一下浅拷贝和深拷贝</h5>
+<p><a href="https://juejin.im/post/5a6f39df6fb9a01cab288733" target="_blank" rel="noopener">资料源文</a></p>
+<ul>
+<li>Symbol介绍
+Symbol是ES6中引入的原始数据类型。Symbol值通过Symbol函数生成，是独一无二的。同时，ES6中规定了对象的属性名有两种类型，一种是字符串，另一种就是 Symbol 类型。凡是属性名属于 Symbol 类型，就不会与其他属性名产生冲突。
+但是，随之而来的问题是，我们的for...in循环不能遍历出该属性。</li>
+</ul>
+<p>Symbol 作为属性名，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。但是，它也不是私有属性，有一个Object.getOwnPropertySymbols方法，可以获取指定对象的所有 Symbol 属性名。</p>
+<p>有Symbol类型，自然有遍历Symbol类型的方法。Object.getOwnPropertySymbols + for...in的组合起来好像是能满足我们要求的了。
+可是等等，还有一个方法——&gt;Reflect.ownKeys，该方法返回一个数组，包含对象自身的所有属性，不管是属性名是Symbol或字符串，也不管是否可以枚举。</p>
+<p>总结：
+######for...in循环遍历对象自身的和继承的可枚举属性（不含 Symbol 属性）。
+######Object.keys()返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。
+######Object.getOwnPropertyNames()返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性）的键名。
+######Object.getOwnPropertySymbols()返回一个数组，包含对象自身的所有 Symbol 属性的键名。
+######Reflect.ownKeys()返回一个数组，包含对象自身的所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。</p>
+<h3>&lt;center&gt; 手写parseInt的实现：</h3>
+<p><a href="http://www.jb51.net/article/124438.htm" target="_blank" rel="noopener">资料原文</a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">function _parseInt(str, radix) &#123;</span><br><span class="line"> let str_type = typeof str;</span><br><span class="line"> let res = 0;</span><br><span class="line"> if (str_type !== &apos;string&apos; &amp;&amp; str_type !== &apos;number&apos;) &#123;</span><br><span class="line">  // 如果类型不是 string 或 number 类型返回NaN</span><br><span class="line">  return NaN</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> // 字符串处理</span><br><span class="line"> str = String(str).trim().split(&apos;.&apos;)[0]</span><br><span class="line"> let length = str.length;</span><br><span class="line"> if (!length) &#123;</span><br><span class="line">  // 如果为空则返回 NaN</span><br><span class="line">  return NaN</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> if (!radix) &#123;</span><br><span class="line">  // 如果 radix 为0 null undefined</span><br><span class="line">  // 则转化为 10</span><br><span class="line">  radix = 10;</span><br><span class="line"> &#125;</span><br><span class="line"> if (typeof radix !== &apos;number&apos; || radix &lt; 2 || radix &gt; 36) &#123;</span><br><span class="line">  return NaN</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> for (let i = 0; i &lt; length; i++) &#123;</span><br><span class="line">  let arr = str.split(&apos;&apos;).reverse().join(&apos;&apos;);</span><br><span class="line">  res += Math.floor(arr[i]) * Math.pow(radix, i)</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> return res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3>&lt;center&gt; 什么的跨域，为什么会有跨域？</h3>
+<p><a href="https://www.jianshu.com/p/01654a4da9e5" target="_blank" rel="noopener">原文来源</a></p>
+<ul>
+<li>什么是跨域？
+简单地理解就是因为JavaScript同源策略的限制，如 a.com 下的js 无法和b.com 的js通信。这是浏览器为了安全而设定的策略。
+只有域名相同才不会有跨域的情况。
+以下情况都会出现跨域：
+特别注意两点：
+第一：如果是协议和端口造成的跨域问题“前台”是无能为力的，只能通过后台代理。
+第二：在跨域问题上，域仅仅是通过“URL的首部”来识别而不会去尝试判断相同的ip地址对应着两个域或两个域是否在同一个ip上，“URL的首部”指https://（协议）</li>
+<li>常见的情况和解决方案
+1 .jsonp跨域访问接口
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 在a.com下</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &apos;b.com/getjson&apos;?cb=?$a=1&amp;b=2, // cb=? jquery的jsonp 会把此处的？</span><br><span class="line">    type: &apos;jsonp&apos;,                     //替换为jsonpCallback</span><br><span class="line">    jsonpCallback:&apos;jsonpCallback&apos;,  // 发出的请求为b.com/getjson&apos;?cb=jsonpCallback$a=1&amp;b=2</span><br><span class="line">    success:function(data)&#123;</span><br><span class="line">        console.log(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>jsonp的原理：
+虽然js是受到同源策略，但是引用js文件，img，css文件是不会受到限制的，所以原理就是动态创建script，jquery在发送请求前生产了一个jsonpCallback函数，然后向b.com请求了一个js文件。
+服务器根据cb的值返回一个jsonpCallback(jsonDate)，即这个js文件被浏览器解析后执行了之前定义的函数。</p>
+<p>缺点：
+1 需要后端配合提供jsonp端口
+2 因为是动态创建script标签，所以只能get，不能Post。安全性要大大低于post，不适合发送机密信息。</p>
+
       
     </div>
     <footer class="article-footer">
@@ -358,19 +639,125 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://upload-images.jianshu.io/upload_images/8542482-2ef43dd9c47ca960.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/17  晴天"></p>
-<p><center>想单独拿一篇博客来记录是因为，在我想要了解一些方法操作的效率或性能怎么样时，网上资料很少，所以专门去查看了一下源码，特写此文。希望能帮助到和我一样有疑惑的前端小盆友。</center></p>
-<p><center>下面进入正题：<br>
-        <!-- 
-想单独拿一篇博客来记录是因为，在我想要了解一些方法操作的效率或性能怎么样时，网上资料很少，所以专门去查看了一下源码，特写此文。希望能帮助到和我一样有疑惑的前端小盆友。
-下面进入正题：
- JS Array的特点
-既可以当作一个普通的数组来使用，即通过下标找到数组的元素，比如：
-12var array = [19,50,99];console.log(array[0]);
+<p>&lt;center&gt;想单独拿一篇博客来记录是因为，在我想要了解一些方法操作的效率或性能怎么样时，网上资料很少，所以专门去查看了一下源码，特写此文。希望能帮助到和我一样有疑惑的前端小盆友。</p>
+<p>&lt;center&gt;下面进入正题：
+&lt;!-- more --&gt;</p>
+<h4>&lt;center&gt; JS Array的特点</h4>
+<ul>
+<li>
+<p>既可以当作一个普通的数组来使用，即通过下标找到数组的元素，比如：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var array = [19,50,99];</span><br><span class="line">console.log(array[0]);</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>也可以当作一个栈来使用，并且继承栈的特点，先进后出，push和pop。</p>
+</li>
+<li>
+<p>还可以当作一个哈希表来使用
+例如：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var map = [];</span><br><span class="line">map[&quot;id&quot;] = 1234;</span><br><span class="line">map[&quot;name&quot;] = yin;</span><br><span class="line">console.log(map[&quot;name&quot;]);</span><br></pre></td></tr></table></figure></p>
+</li>
+</ul>
+<h4>&lt;center&gt; JS Array的实现</h4>
+<p>源码里说：JSArray有两种模式，一种是快速的，一种是慢速的，快速的用的是索引直接定位，慢速的使用哈希查找。快速和慢速的讲解见传送门。</p>
+<h4>&lt;center&gt; Push和扩容</h4>
+<ul>
+<li>
+<p>初始化：举个例子，数组初始化大小为4
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//number of element slots to pre-allocate for an empty array</span><br><span class="line">static const int kPreallocatedArrayElements = 4;</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>push操作：执行push的时候会在数组的末尾添加新的元素，而一旦空间不足时，将进行扩容。
+<strong><em>push过程</em></strong>
+源码里面push是用汇编实现的，在c++里面嵌入的汇编，这个应该是考虑到push是一个最常用的操作，所以用汇编实现<strong><em>提高执行速度</em></strong>，在汇编的上面封装了一层用C++封装的函数，在编译组装的时候，将把这些C++代码转成汇编代码。</p>
+</li>
+</ul>
+<p>扩容后，计算新容量的函数：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Node *code StubAssemBler::CalculateNewElementsCapacity(Node *old_capacity,ParameterMode mode)&#123;</span><br><span class="line">Node *half_old_capacity = WordOrSmiShr(old_capacity,old_capacity,mode);</span><br><span class="line">Node *new_capacity = IntPtrOrSmiAdd(half_old_capacity,old_capacity,mode);</span><br><span class="line">Node *padding = IntPtrOrSmiConstant(16,mode);</span><br><span class="line">return IntPtrOrSmiAdd(new _capacity,padding,mode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上代码新容量等于：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new _capacity = old_capacity/2 + old_capacity + 16;</span><br></pre></td></tr></table></figure></p>
+<p>即旧容量的1.5倍加上16。初始化是4个，当push第五个时，容量会变成 4/2+4+16=22</p>
+<p><strong><em>push过程</em></strong></p>
+<ul>
+<li>
+<p>申请内存：申请一块刚刚计算出来的大小的内存，把旧的数据拷过去
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Node* CodeStubAssembler::GrowElementsCapacity(</span><br><span class="line">Node *object,Node *element,Node *capacity,Node *new_capacity)&#123;</span><br><span class="line">Node *new_elements = AllocateFixedArray(new_capacity,mode);</span><br><span class="line">CopyFixedArrayElements(elements,new_elements,capacity,new_capacity);</span><br><span class="line">return new_elements;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>复制内容
+由于复制是用的memcopy，把整一段内存空间拷贝过去，所以这个操作还是比较快的。
+再把新元素放到当前length的位置，再把length++</p>
+</li>
+</ul>
+<h4>&lt;center&gt; Pop和减容</h4>
+<p>pop的逻辑使用c++写的，在执行pop的时候，第一步，获取到当前的length，用这个length-1得到要删除的元素，然后调用setLength调整容量，最后返回删除的元素。</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int new_length = length - 1;</span><br><span class="line">int remove_index = remove_position == AT_START?0:new_length;</span><br><span class="line">Handle&lt;Object&gt; result = Subclass::GetImpl(isolate,*backing_store,remove_index);</span><br><span class="line">Subclass::SetLengthImpl(isolate,receiver,new_length,backing_store);</span><br><span class="line">return result;</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>减容过程</em></strong></p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(2*length &lt;= capacity)&#123;</span><br><span class="line">isolate-&gt;heap()-&gt;RightTrimFixedArray(*backing_store,capacity-length);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">BackingStore::cast(*backing_store)-&gt;FillWithHoles(length,old_length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果容量大于等于length的2倍，则进行容量调整，否则用holes对象填充，第三行的rightTrim函数，会算出需要释放的空间大小，并做标记，并等待GC回收。</p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int bytes_to_trim = elements_to_trim*element_size;</span><br><span class="line">Address old_end = object-&gt;address() + object -&gt;Size();</span><br><span class="line">Address new_end = old_end-bytes_to_trim;</span><br><span class="line">CreateFillterObjectAt(new_end,bytes_to_trim,ClearRecorderedSlots::kYes);</span><br></pre></td></tr></table></figure></p>
+<h4>&lt;center&gt; shift和splice数组中间的操作</h4>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">push和pop都是在数组末尾操作，相对比较简单，而shift、unshift和splice是在数组的开始或者中间进行操纵。</span><br></pre></td></tr></table></figure></p>
+<p>######(1)shift 出队
+即删除并返回数组的第一个元素，shift和pop调用的都是同样的删除函数，只不过shift传的删除的Position是AT_START，源码里面会判断如果是AT_START的话，会把元素进行移动。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(remove_position==AT_START)&#123;</span><br><span class="line">Subclass::MoveElements(isolate,receiver,backing_store,0,1,new_length,0,0);</span><br></pre></td></tr></table></figure></p>
+<p>#####(2)unshift在数组的开始位置插入元素</p>
+<ul>
+<li>首先判断容量是否足够存放，如果不够，将容量扩展为老容量的1.5倍加16</li>
+<li>再把老元素移到新的内存空间偏移为unshift元素个数的位置，也就是说要腾出起始的空间放unshift传进来的元素</li>
+<li>如果空间够了，则直接执行memmove移动内存空间</li>
+<li>最后再把unshift传进来的参数copy到开始的位置。</li>
+<li>更新array的length。</li>
+</ul>
+<p>#####(3)splice
+splice的操作已经几乎不用去看源码了，通过shift和unshift的操作，就可以想象到它的执行过程是怎样的，只是shift和unshift的操作的Index是0，而splice可以制定index。</p>
+<h4>&lt;center&gt; Join和Sort</h4>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说join和sort小清新，是因为它们是用JS实现的，然后再用wasm打包成native code</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>Join
+不过join的实现逻辑并不简单，因为array的元素本身具有多样化，可能为慢元素或者快元素，还可能带有循环引用。对于慢元素，需要先排下序：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var keys=GetSortedArrayKeys(array,%GetArrayKeys(array,length));</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>预处理完之后，最后创建一个字符串数组，用连接符连起来。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var elements = new InternalArray(length);</span><br><span class="line">for(var i = 0; i &lt; length; i++)&#123;</span><br><span class="line">elements[i] = ConverToString(use_local,array[i]);</span><br><span class="line">&#125;</span><br><span class="line">if(separator==&apos; &apos;)&#123;</span><br><span class="line">return %SrtingBuilderConcat(elements,length,&apos; &apos;);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">return %SrtingBuilderJoin(elements,length,separator);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>Sort
+sort函数是用的快速排序:</li>
+</ul>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function ArraySort(comparefn)&#123;</span><br><span class="line">CHECK_OBJECT_COERCIBLE(this,&quot;Array.prototype.sort&quot;);</span><br><span class="line">%Log(&quot;js/array.js execute ArraySort&quot;);</span><br><span class="line">var array=TO_BOJECT(this);</span><br><span class="line">var length = TO_LENGTH(array.length);</span><br><span class="line">return InnerArraySort(array,length,comparefn);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过当数组元素的个数不超过10个时，排序用的是插入排序。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function InnerArraySort(array,length,comparefn)&#123;</span><br><span class="line">function QuickSort(a,from,to)&#123;</span><br><span class="line">var third_index = 0;</span><br><span class="line">while(true)&#123;</span><br><span class="line">if(to-from&lt;=10)&#123;</span><br><span class="line">InsertionSort(a,from,to);</span><br><span class="line">return;</span><br><span class="line">&#125;</span><br><span class="line">//other code...</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>快速排序算法有一个关键点就是选择枢纽元素，最简单的是每次都是选取第一个元素，或者中间的元素，sort的源码里是这样选择的：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(to-from&gt;1000)&#123;</span><br><span class="line">third_index = GetThirdIndex(a,from,to);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">third_index = from+((to-from)&gt;&gt;1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>***如果元素个数在1000以内，则使用它们的中间元素，否则要算一下，***这个算法比较有趣；
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function GetThirdIndex(a,from,to)&#123;</span><br><span class="line">var t_array = new InternalArray;</span><br><span class="line">var increment = 200+((to-from)&amp;15);</span><br><span class="line">var j = 0;</span><br><span class="line">from+=1;</span><br><span class="line">to-=1;</span><br><span class="line">for(var i=from;i&lt;to;i+=increment)&#123;</span><br><span class="line">t_array[j]=[i,a[i]];</span><br><span class="line">j++;</span><br><span class="line">&#125;</span><br><span class="line">t_array.sort(function(a,b)&#123;</span><br><span class="line">return comparefn(a[1],b[1]);</span><br><span class="line">&#125;);</span><br><span class="line">var third_index = t_array[t_array.length&gt;&gt;1][0];</span><br><span class="line">return third_index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先取一个递增区间200~215之间，再循环取出原元素里面落到这个间距的元素，放到一个新的数组里面（这个数组时C++中的数组），然后排下序，取中间的元素，因为枢纽元素刚好是所有元素的中位数时，排序效果最好，而这里取出少数元素的中位数，类似于<strong><em>抽样模拟</em></strong>，缺点是它得再借助另外的排序算法。</p>
+<h4>&lt;center&gt; Array和线性链接（List）的速度</h4>
+<p>线性链接是一种非连续存储的数据结构，每个元素都有一个指针指向它的下一个元素，所以它删除元素的时候不需要移动其它元素，也不需要考虑扩容的事情，但它的查找比较慢。</p>
+<p>我们实现一个简单的List和Array进行比较。
+List的每个节点用一个Node表示：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Node&#123;</span><br><span class="line">constructor(value,next)&#123;</span><br><span class="line">this.value = value;</span><br><span class="line">this.next=next;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>每个List都有一个头指针指向第一个元素，和一个Length记录它的长度。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class List&#123;</span><br><span class="line">constructor()&#123;</span><br><span class="line">this.head= null;</span><br><span class="line">this.tail=null;</span><br><span class="line">this.length=0;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后实现它的push和unshift函数：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class List&#123;</span><br><span class="line">unshift(value)&#123;</span><br><span class="line">return this.insert(0,value);</span><br><span class="line">&#125;</span><br><span class="line">push(value)&#123;</span><br><span class="line">if(this.head===null)&#123;</span><br><span class="line">this.head=new Node(value,this,tail);</span><br><span class="line">this.length++;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">this.insert(this.length,value);</span><br><span class="line">&#125;</span><br><span class="line">return this.length;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>push和unshift都会调用一个通用的Insert函数：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">insert(index,value)&#123;</span><br><span class="line">var insertPos = this.head;</span><br><span class="line">//找到需要插入的位置的节点</span><br><span class="line">for(var i = 0; i &lt; index-1; i++)&#123;</span><br><span class="line">insertPos = insertPos.next;</span><br><span class="line">&#125;</span><br><span class="line">var node = null;</span><br><span class="line">if(index===0)&#123;</span><br><span class="line">node = new Node(value,this.head);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">node = new Node(value,insertPos.next);</span><br><span class="line">insertPos.next = node;</span><br><span class="line">&#125;</span><br><span class="line">this,length++;</span><br><span class="line">return value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有了这个List之后，就可以初始化一个List和array：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var list = new List();</span><br><span class="line">var arr = [];</span><br><span class="line">for(var i = 0;i&lt;100;i++)&#123;</span><br><span class="line">list.push(i);</span><br><span class="line">arr.push(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>用下面代码可以比较List和Array在数组起始位置插入元素的操作时间:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var count = 10000;</span><br><span class="line">console.time(&quot;list unshift&quot;);</span><br><span class="line">for(var i = 0; i&lt;count; i++)&#123;</span><br><span class="line">list.unshift(i);</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&quot;list unshift&quot;);</span><br><span class="line">console.time(&quot;array unshift&quot;);</span><br><span class="line">for(var i = 0;i&lt;count;i++)&#123;</span><br><span class="line">arr.unshift(i);</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&quot;array unshift&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>在比较从正中间位置插入元素的时间：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">console.time(&quot;list insert middle with index&quot;);</span><br><span class="line">for(var i = 0; i &lt; count; i++)&#123;</span><br><span class="line">insert.unshift(i);</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&quot;list unshift&quot;);</span><br><span class="line"></span><br><span class="line">console.time(&quot;array unshift&quot;);</span><br><span class="line">for(var i = 0; i &lt; count; i++)&#123;</span><br><span class="line">arr.unshift(i);</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&quot;array unshift&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>运行之后可以得到如下表格：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-e6501a68862833bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行时间"></p>
+<p>可以由图得到结论：
+在队首插入元素，使用线性链接List的时间将会数量级的优先于Array；如果是在中间位置插入的话，由于List的查找花费了很多时间，导致总时间明显高于Array，但是如果在插入的时候，记住上一次的位置i，那么List又会明显快于Array。</p>
+<p><strong><em>综上：</em></strong>
+Array的实现用了三种语言：汇编，C++和JS，最常用的如push用了汇编实现，比较常用的如Pop/splice等用了C++，较为少用的如join/sort用了JS。</p>
+<p>Array为快元素即普通的数组时，增删元素操作需要不断的扩容、减容和调整元素的位置，特别是当不断地在起始位置插入元素时，和链表相比，这种时间效率还是比较低下的。如果使用的场景是要根据Index删除元素，使用Array还是有优势，但是若能很快定位到删除元素的位置，链表毫无疑问还是更合适的。</p>
+<p>末尾挂一下<a href="https://blog.csdn.net/zdy0_2004/article/details/70198964" target="_blank" rel="noopener">资料原文</a>
+我们要做文明的知识搬运工~</p>
 
-也可以当作一个栈来......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/17/JS 数组操作之源码分析/#more">Read More</a>
-        </p>
       
     </div>
     <footer class="article-footer">
@@ -413,19 +800,261 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=403828a34dc2d562f208d0e5d71090f3/c6f617fa513d2697a0ee8e9e57fbb2fb4216d8cb.jpg" alt="2018/4/10 晴天"></p>
-<h3 id="左右布局：不少于三种方法"><a href="#左右布局：不少于三种方法" class="headerlink" title=" 左右布局：不少于三种方法"></a><center> 左右布局：不少于三种方法</center></h3><p>圣杯布局和双飞翼布局解决的问题是一样的，就是两边顶宽，中间自适应的三栏布局，中间栏要在放在文档流前面以优先渲染。</p>
+<h3>&lt;center&gt; 左右布局：不少于三种方法</h3>
+<p>圣杯布局和双飞翼布局解决的问题是一样的，就是两边顶宽，中间自适应的三栏布局，中间栏要在放在文档流前面以优先渲染。</p>
 <p>圣杯布局和双飞翼布局解决问题的方案在前一半是相同的，也就是三栏全部float浮动，但左右两栏加上负margin让其跟中间栏div并排，以形成三栏布局。</p>
-<p>不同在于解决”中间栏div内容不被遮挡“问题的思路不一样：</p>
-<p>圣杯布局，为了中间div内容不被遮挡，将中间div设置了左右padding-left和padding-right后，将左右两个div用相对布局position: relative并分别配合right和left属性，以便左右两栏div移动后不遮挡中间div。</p>
-<p>双飞翼布局，为了中间div内容不被遮挡，直接在中间div内部创建子div用于放置内容，在该子div里用margin-left和margin-right为左右两栏div留出位置。<br>
-        <!-- 
- 左右布局：不少于三种方法圣杯布局和双飞翼布局解决的问题是一样的，就是两边顶宽，中间自适应的三栏布局，中间栏要在放在文档流前面以优先渲染。
-圣杯布局和双飞翼布局解决问题的方案在前一半是相同的，也就是三栏全部float浮动，但左右两栏加上负margin让其跟中间栏div并排，以形成三栏布局。
-不同在于解决”中间栏div内容不被遮挡“问题的思路不一样：
-圣杯布局，为了中间div内容不被遮挡，将......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/14/CSS/#more">Read More</a>
-        </p>
+<p>不同在于解决”中间栏div内容不被遮挡“问题的思路不一样：
+&lt;!-- more --&gt;
+圣杯布局，为了中间div内容不被遮挡，将中间div设置了左右padding-left和padding-right后，将左右两个div用相对布局position: relative并分别配合right和left属性，以便左右两栏div移动后不遮挡中间div。</p>
+<p>双飞翼布局，为了中间div内容不被遮挡，直接在中间div内部创建子div用于放置内容，在该子div里用margin-left和margin-right为左右两栏div留出位置。</p>
+<h5>&lt;center&gt; 圣杯模型</h5>
+<p>&lt;center&gt;两栏和自适应元素都设置同一方向的浮动(如float: left)</p>
+<p>&lt;center&gt;父元素设置左右padding为左右边栏的宽度。</p>
+<p>&lt;center&gt;自适应元素设置宽度为100%</p>
+<p>&lt;center&gt;左边栏margin-left为负100%，再设置relative，最后通过left属性偏移负的自身宽度。</p>
+<p>&lt;center&gt;右边栏margin-left为负自身宽度，再设置relative，最后通过right属性偏移负的自身宽度。</p>
+<h5>&lt;center&gt; 双飞翼模式</h5>
+<p>&lt;center&gt;与圣杯模式相似，只不过少了relative，left，right的步骤和共同父元素，主内容元素多了层父元素，实现思路如下：</p>
+<p>&lt;center&gt;main元素设置左右margin值，值为左右两栏的宽度，main父元素设置宽度为100%。
+&lt;center&gt;左边栏margin-left为负100%
+&lt;center&gt;右边栏margin-left为负自身宽度</p>
+<h5>&lt;center&gt; 两栏布局</h5>
+<p>利用BFC布局实现：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">html:</span><br><span class="line">&lt;div class=&quot;main&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;left&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;right&quot;&gt;可爱如我可爱如我可爱如我可爱如我   biubiubiubiubiubiu&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">css:</span><br><span class="line">        .main&#123;</span><br><span class="line">            /* float: left; */</span><br><span class="line">            width: 100%;</span><br><span class="line">        &#125;</span><br><span class="line">        .left&#123;</span><br><span class="line">            float: left;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background-color: orange;</span><br><span class="line">            opacity: 0.5;</span><br><span class="line">        &#125;</span><br><span class="line">        .right&#123;</span><br><span class="line">            overflow: auto;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background-color: green;</span><br><span class="line">        &#125;</span><br><span class="line">main里注释的那句代码是因为加和不加对这个布局没影响，加的话如果后面还有元素，可能需要视情况考虑清除浮动。</span><br></pre></td></tr></table></figure></p>
+<p>该布局利用了float和overflow，overflow在这里的作用是激活BFC布局。</p>
+<p>除了BFC，还可以利用float和margin来实现，和上面BFC相比，只是少了一句BFC的激活语句，多了一句  margin-left:100px;</p>
+<h3>&lt;center&gt; BFC的功能和特点：</h3>
+<h5>&lt;center&gt; 如何激活BFC布局：</h5>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.float值不是none</span><br><span class="line">2.position为absolute或者fixed</span><br><span class="line">3.非块级元素的display是其中一个：inline-block，table-cell，table-caption，flex，inline-flex</span><br><span class="line">4.块级元素具有overflow，且值不是visible</span><br></pre></td></tr></table></figure></p>
+<h5>&lt;center&gt; BFC用处</h5>
+<p>&lt;center&gt;<a href="https://segmentfault.com/a/1190000009545742" target="_blank" rel="noopener">原文链接</a></p>
+<h6>&lt;center&gt; 清除浮动</h6>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">html:</span><br><span class="line">&lt;div class=&quot;wrap&quot;&gt;</span><br><span class="line">&lt;section&gt;1&lt;/section&gt;</span><br><span class="line">&lt;section&gt;2&lt;/section&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">css:</span><br><span class="line">.wrap &#123;</span><br><span class="line">  border: 2px solid yellow;</span><br><span class="line">  width: 250px;</span><br><span class="line">&#125;</span><br><span class="line">section &#123;</span><br><span class="line">  background-color: pink;</span><br><span class="line">  float: left;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于子元素都是浮动的，受浮动影响，边框为黄色的父元素的高度坍塌了。
+<img src="http://upload-images.jianshu.io/upload_images/8542482-098186c529bb638d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+解决方案：为.wrapper 加上 overflow:hidden，使其形成BFC，根据BFC规则第六条，计算高度时就会计算float的元素的高度，达到清除浮动的效果。
+清除后如下：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-0889c8b286b55825?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+清除浮动原理：触发父div的BFC属性，使下面的子div都处在父div的同一个BFC区域之内，此时已成功清除浮动。</p>
+<h6>&lt;center&gt; 自适应两栏布局</h6>
+<p>见<a href="https://www.jianshu.com/p/c1363a5b35fc" target="_blank" rel="noopener">CSS + CSS3的问题1</a> 有详细解释</p>
+<h6>&lt;center&gt; 防止垂直margin合并</h6>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">html:</span><br><span class="line">&lt;section class=&quot;top&quot;&gt;1&lt;/section&gt;</span><br><span class="line">&lt;section class=&quot;bottom&quot;&gt;2&lt;/section&gt;</span><br><span class="line"></span><br><span class="line">css：</span><br><span class="line">section &#123;</span><br><span class="line">  background-color: pink;</span><br><span class="line">  margin-bottom: 100px;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.bottom &#123;</span><br><span class="line">  margin-top: 100px;</span><br><span class="line">&#125;</span><br><span class="line">请注意，这里有一个margin-bottom和margin-top分别都是100px，section的宽高为了好对比也设置的100px</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8542482-4ef692e16d388f96?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+可以看到，我们实际只能看到两个section之间的高度是100px，这是因为他们的外边距相遇发生了合并。
+解决方式：为其中一个元素的外面包裹一层元素，并为这个外层元素设置overflow:hidden，使其形成BFC。因为BFC内部是一个独立的容器，所以不会与外部相互影响，可以防止margin合并。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">代码如下：</span><br><span class="line">html:</span><br><span class="line">&lt;section class=&quot;top&quot;&gt;1&lt;/section&gt;</span><br><span class="line">&lt;div class=&quot;wrap&quot;&gt;</span><br><span class="line">&lt;section class=&quot;bottom&quot;&gt;2&lt;/section&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">css多加了.wrap的样式，其他不变。</span><br><span class="line">overflow:hidden</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8542482-8237d4573a3db21f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h3>&lt;center&gt; 对栅格的理解</h3>
+<p>&lt;center&gt;大部分栅格系统的公式依据：W =（c + g） * N
+&lt;center&gt;其中W是Flowline是W，c是column的宽度，g是Gutter（卡槽）的宽度</p>
+<h6>&lt;center&gt; bootsrap的栅格系统：</h6>
+<p>bootstrap中，必须将列放入row中，而row必须在container中，container类在布局中主要有两个作用：
+1.在不同的宽度区间内（响应式断点）提供宽度限制，当宽度变化时，采用不同的宽度。
+2.提供一个padding，组织内部内容触碰到浏览器边界。</p>
+<p>响应式布局概念：为同一个页面设计多种布局形态，分别适配不同屏幕尺寸的设备。</p>
+<p>在介绍栅格布局如何实现之前，先介绍一个bootstrap中的栅格原理：
+要理解bootstrap的栅格，这其中有两个要点：</p>
+<ul>
+<li>容器（container），行（row）和列（column）之间的层级关系，一个正确的写法如下：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;  </span><br><span class="line">    &lt;div class=&quot;row&quot;&gt;  </span><br><span class="line">        &lt;div class=&quot;col-md-6&quot;&gt;&lt;/div&gt;  </span><br><span class="line">        &lt;div class=&quot;col-md-6&quot;&gt;&lt;/div&gt;  </span><br><span class="line">    &lt;/div&gt;  </span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>bootstrap栅格的container，row，column必须保持特定的层级关系，才能正常工作。原因如下：container有15px的水平内边距，row有-15px的水平外边距，column有15px的水平内边距，这些边距是故意的、互相关联的，因此就像齿轮一样，限定了层级结构。这也是bootstrap的精巧之处。
+正确的用法如下：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;   </span><br><span class="line">    &lt;div class=&quot;row&quot;&gt;   </span><br><span class="line">        &lt;div class=&quot;col-md-8&quot;&gt;   </span><br><span class="line">            &lt;div class=&quot;row&quot;&gt;   </span><br><span class="line">                &lt;div class=&quot;col-md-6&quot;&gt;&lt;/div&gt;   </span><br><span class="line">                &lt;div class=&quot;col-md-6&quot;&gt;&lt;/div&gt;   </span><br><span class="line">            &lt;/div&gt;   </span><br><span class="line">        &lt;/div&gt;   </span><br><span class="line">        &lt;div class=&quot;col-md-4&quot;&gt;&lt;/div&gt;   </span><br><span class="line">    &lt;/div&gt;   </span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>第二个要点，是不同的断点类型的意义及其搭配</li>
+</ul>
+<p>bootstrap栅格的column对应的类名形如.col-xx-y，其中y是数字，表示该元素的宽度占据12列中的y列，而xx只有特定的几个值可以选择，分别是xs、sm、md、lg，他们就是断点类型，断点像素值依次增大，其中xs表示极小，即认为视口宽度永远不小于xs断点，column始终水平浮动。
+在bootstrap的sass源码中是这样定义栅格的：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@include make-grid-columns;   </span><br><span class="line">@include make-grid(xs);   </span><br><span class="line">@media (min-width: $screen-sm-min) &#123;   </span><br><span class="line">  @include make-grid(sm);   </span><br><span class="line">&#125;   </span><br><span class="line">@media (min-width: $screen-md-min) &#123;   </span><br><span class="line">  @include make-grid(md);   </span><br><span class="line">&#125;   </span><br><span class="line">@media (min-width: $screen-lg-min) &#123;   </span><br><span class="line">  @include make-grid(lg);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，用了min-width的写法，而且断点像素值越大的，对应代码越靠后。这就是为什么在实现栅格布局时，只设定最小值，而不设定最大值的原因了。</p>
+<p>现在我们可以来了解一下如何实现栅格布局了：</p>
+<h6>&lt;center&gt; 栅格布局如何实现：</h6>
+<ul>
+<li>开始</li>
+</ul>
+<p>实现栅格系统，首要确定两个内容：
+1.我们打算把屏幕分为几类
+2.我们打算支持的列数是多少
+我们可以以bootstrap为参照，将屏幕分成四类：超小屏幕（&lt;768px），小屏幕--平板（&gt;=768px），中等屏幕--桌面显示器（&gt;=992px），大屏幕--大屏幕显示器（&gt;=1200px），类前缀分别为：.col-xs-，.col-sm-，.col-md-，.col-lg-，列数也可以定位12。</p>
+<ul>
+<li>实现</li>
+</ul>
+<p>确定好屏幕分类和列数后，就可以开始实现了。
+首先给栅格系统的所有class增加浮动 float:left</p>
+<p>声明浮动后开始声明宽度，从最小屏幕开始，最小屏幕不需要使用@media来声明。
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.col-sm-1 &#123;</span><br><span class="line">    width: 8.333333%  // 十二分之一</span><br><span class="line">&#125;</span><br><span class="line">.col-sm-2 &#123;</span><br><span class="line">    width: 16.66667%  // 十二分之二      </span><br><span class="line">&#125;</span><br><span class="line">// ...</span><br><span class="line">.col-sm-12 &#123;</span><br><span class="line">    width: 100%  // 十二分之十二</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其他情况情况也需要声明浮动和宽度，但是需要声明最小屏幕宽度，以中屏举例：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">注意括号里是 min-width</span><br><span class="line">@media (min-width:992) &#123;</span><br><span class="line">    .col-md-1 &#123;</span><br><span class="line">        width: 8.333333%  // 十二分之一</span><br><span class="line">    &#125;</span><br><span class="line">    .col-md-2 &#123;</span><br><span class="line">        width: 16.66667%  // 十二分之二      </span><br><span class="line">    &#125;</span><br><span class="line">    // ...</span><br><span class="line">    .col-md-12 &#123;</span><br><span class="line">        width: 100%  // 十二分之十二</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其他情况同理，这样我们就能实现一个简单的栅格系统。</p>
+<h3>&lt;center&gt; （水平）居中有哪些实现方式</h3>
+<ul>
+<li>text-align:center;
+将行内元素包裹在一个属性display为block的父层元素中，并且把父层元素添加如下属性即可：</li>
+<li>块状元素解决方案： margin:0 auto;</li>
+<li>多个块状元素解决方案
+将元素的display属性设置为Inline-block，并且把父元素的text-align属性设置为center。</li>
+<li>多个块状元素解决方案（使用flexbox布局实现）
+使用flexbox布局，只需要把待处理的块状元素的父元素添加属性display：flex及justify-content:center</li>
+</ul>
+<h6>&lt;center&gt; 垂直居中</h6>
+<ul>
+<li>
+<p>单行的行内元素解决方案
+height=line-height</p>
+</li>
+<li>
+<p>多行的行内元素解决方案
+组合使用display:table-cell和vertical-align:middle属性来定义需要居中的元素的父容器元素生成效果</p>
+</li>
+<li>
+<p>已知高度的块元素解决方案
+top移动50%，之后margin-top移动自身高度的一半</p>
+</li>
+</ul>
+<h6>&lt;center&gt; 水平垂直居中</h6>
+<ul>
+<li>
+<p>已知高度和宽度的元素
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.item&#123;</span><br><span class="line">    position:absolute;</span><br><span class="line">    margin:0 auto;</span><br><span class="line">    left:0;</span><br><span class="line">    top:0;</span><br><span class="line">    right:0;</span><br><span class="line">    bottom:0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>已知高度和宽度的元素
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.item&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 50%;</span><br><span class="line">    left: 50%;</span><br><span class="line">    margin-top: -75px;  /* 设置margin-left / margin-top 为自身高度的一半 */</span><br><span class="line">    margin-left: -75px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>未知高度和宽度的元素
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.item&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 50%;</span><br><span class="line">    left: 50%;</span><br><span class="line">    transform: translate(-50%, -50%);  /* 使用css3的transform来实现 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</li>
+<li>
+<p>使用flex布局来实现
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    justify-content:center;</span><br><span class="line">    align-items: center;</span><br><span class="line">    /* 注意这里需要设置高度来查看垂直居中效果 */</span><br><span class="line">    background: #AAA;</span><br><span class="line">    height: 300px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</li>
+</ul>
+<h3>&lt;center&gt; CSS3有哪些新属性？</h3>
+<p>&lt;br&gt;</p>
+<h6>&lt;center&gt;弹性盒子 flex</h6>
+<p>弹性盒子是CSS3的一种新的布局模式，是一种当页面需要适应不同的屏幕大小以及设备类型时确保元素拥有恰当的行为的布局方式。
+弹性盒子由弹性容器和弹性子元素组成，弹性容器通过设置display属性的值为flex或inline-flex将其定义为弹性容易。
+弹性容器内包含了一个或多个弹性盒子。</p>
+<ul>
+<li>
+<p>flex-direction属性
+1 row：横向从左到右排列（左对齐），默认的排列方式
+2 row-reverse：反转横向排列（右对齐，从后往前排，最后一项排在最前面）
+3 column：纵向排列
+4 column-reverse：反转纵向排列，从后往前排，最后一项排在最上面</p>
+</li>
+<li>
+<p>justify-content属性
+1 flex-start：默认值。弹性项目向行头紧挨着填充。
+2 flex-end：弹性项目向行尾紧挨着填充
+3 center：弹性项目居中紧挨着填充（如果剩余的自由空间是负的，则弹性项目将在两个方向上同时溢出）。
+4 space-between：在弹性项目刚好排下的时候该值等同于flex-start，如果弹性项目少的话，则第一个弹性项目的外边距和行的main-start边线对齐，而最后一个弹性项的外边距和行的main-end边线对齐，然后剩余的弹性项分布在该行上，相邻项目的间隔相等。
+5 space-round：
+如果剩余空间为负或者只有一个弹性项，则该值等同于center。否则，弹性项目沿该行分布，且彼此间隔相等（比如是20px），同时首尾两边和弹性容器之间留有一半的间隔</p>
+</li>
+<li>
+<p>align-items属性：设置盒子元素在侧轴（纵轴）方向上的对齐方式。
+1 flex-start：弹性盒子元素的侧轴（纵轴）起始位置的边界紧靠住该行的侧轴起始边界。
+2 flex-end：弹性盒子元素的侧轴（纵轴）起始位置的边界紧靠住该行的侧轴结束边界。
+3 center：弹性盒子元素在该行的侧轴（纵轴）上居中放置。（如果该行的尺寸小于弹性盒子元素的尺寸，则会向两个方向溢出相同的长度）。
+4 baseline：如弹性盒子元素的行内轴与侧轴为同一条，则该值与'flex-start'等效。其它情况下，该值将参与基线对齐。
+5 stretch：如果指定侧轴大小的属性值为'auto'，则其值会使项目的边距盒的尺寸尽可能接近所在行的尺寸，但同时会遵照'min/max-width/height'属性的限制。</p>
+</li>
+</ul>
+<h6>&lt;center&gt; 3D旋转</h6>
+<p>不同浏览器的动画兼容性都不一样，所以在写旋转属性时考虑多种浏览器的兼容特点。
+比如：同样的transform，谷歌是-webkit-transform，火狐是-moz-transfrom。</p>
+<p>旋转方法如下：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">沿X轴旋转</span><br><span class="line">div&#123;</span><br><span class="line">  transform:rotateX(120deg);</span><br><span class="line">  -webkit-transform:rotateX(120deg);</span><br><span class="line">&#125;</span><br><span class="line">沿Y轴旋转</span><br><span class="line">div</span><br><span class="line">&#123;</span><br><span class="line">transform: rotateY(130deg);</span><br><span class="line">-webkit-transform: rotateY(130deg); /* Safari 与 Chrome */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">另外还可以沿Z轴旋转，这里的x,y,z可以联想一些有趣的内容记住~</span><br><span class="line">比如 正面推倒妹子，就是X，妹子侧躺着欣赏，就是Y，妹子玉体横陈就是Z。</span><br><span class="line">以及定义3D缩放转换scaleX(x)，scaleY(y)，scaleZ(z)</span><br><span class="line">translateX(x)，transformY(y)，transformZ(z)来定义3D转换。</span><br></pre></td></tr></table></figure></p>
+<h5>&lt;center&gt; border-radius属性：</h5>
+<p>使用该属性可以给任何元素制作“圆角”。</p>
+<h6>&lt;center&gt; @font-face规则：</h6>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">自定义字体</span><br><span class="line">@font-face</span><br><span class="line">&#123;</span><br><span class="line">font-family: myFirstFont;</span><br><span class="line">src: url(sansation_light.woff);</span><br><span class="line">&#125;</span><br><span class="line">div</span><br><span class="line">&#123;</span><br><span class="line">font-family:myFirstFont;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<h5>&lt;center&gt; 文本效果</h5>
+<p>文本阴影，text-shadow：5px 5px 5px #ff0000；
+盒子阴影，box-shadow：10px 10px 5px #888888；
+文本溢出属性，text-overflow</p>
+<h5>&lt;center&gt; 按钮</h5>
+<p>CSS3的按钮添加了更多颜色或者边框啊，圆润程度的改变，并没有什么太大的亮点。</p>
+<h3>&lt;center&gt; margin塌陷</h3>
+<p><a href="https://juejin.im/entry/56cd377c2e958a69f941f802" target="_blank" rel="noopener">参考原文</a></p>
+<ul>
+<li>margin属性，注意几点：
+1 如果 margin 的值是百分比，则是相对于父元素的内容盒宽度来计算的，即使 margin-top 和 margin-bottom 也是如此。因此即使父元素的高宽不相等，子元素的 margin 元素指定了相同的百分比值，则子元素各个方向的 margin 计算值都是相等的。
+2 margin-top 和 margin-bottom 值对行内非替换元素（non-replaced inline element）是无效的。因此我们可以指定 img 元素的 margin-top 和 margin-bottom，而非替换行内元素（如 i，span 等）设置 margin-top 和 margin-bottom 却不会产生效果。
+（非替换元素是指该元素的height和width属性的大小由其内容决定，而不能直接设置）</li>
+<li>相邻的margin
+两个margin符合垂直相连的的四种情况，满足其中之一即可：
+1 父元素的 top margin 和第一个子元素的 top margin
+2 父元素的bottom margin 和最后一个子元素的 bottom margin
+3 元素的 bottom margin 和与这个元素相邻的兄弟元素的 top margin
+4  如果一个元素，它没有生成 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23block-formatting" target="_blank" rel="noopener">BFC</a>、没有包含正常流的子元素、<code>min-height</code>是0、<code>height</code>是0或者 auto，则它的 top margin 和 bottom margin 也是垂直毗连的</li>
+</ul>
+<p>如果两个margin满足以下三个条件，我们就说这两个margin是相邻的：
+1 这两个margin是垂直相连的，即满足上面四种情况之一
+2 margin的两个元素都是正常流的块级元素，并且在同一个BFC中
+3 两个margin之间没有行盒、清除浮动后的空隙、padding和border。</p>
+<ul>
+<li>margin折叠
+即相邻的margin有可能会被折叠成一个。
+比如元素 #a 指定了 margin-bottom 为 10px，而它下方的元素 #b 指定了 margin-top 为 20px，
+<img src="http://upload-images.jianshu.io/upload_images/8542482-9b2db4dde5f36895.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></li>
+</ul>
+<p>元素 #a 的 margin-bottom 和元素 #b 的margin-top 在位置上重叠了，它们之间的距离是 20px，即元素 #b 的 bottom margin 长度，这就是 margin 折叠现象。关于这个现象，可以这么理解：</p>
+<p>margin 定义的是它与其他盒子之间的最小间距。其中元素 #a 指定了 margin-bottom 为 10px，就表明它下方的元素 #b 与它至少要有 10px 的距离，它指定的是一个最小值，因此实际的距离可以比这个大。</p>
+<p>元素 #a 下方的元素 #b 也设置了 margin-top 为 20px，如果不折叠，则他们之间就有 30px 的距离。如果折叠成了一个 20px 的距离，则对元素 #a 来说，它的 margin-bottom 要求至少要有 10px 的距离，是满足的，而对于元素 #b 来说，它的 margin-top 要求至少要有 20px 的距离，也是满足的。</p>
+<p>而 margin 折叠的存在，其实是为了可以在视觉上显得更美观，也更贴近设计师的预期。</p>
+<p>-margin的折叠规则
+并不是所有的margin都可以折叠，需要满足以下条件：
+1 垂直相邻的margin才有可能折叠，水平margin永远不折叠
+2 根元素（即html）的margin永远不折叠
+3 如果一个元素，它的 top margin 和 bottom margin 是<strong>相邻</strong>的，并且有清除浮动后的空隙（<a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23clearance" target="_blank" rel="noopener">clearance</a>），这个元素的 margin 可以跟兄弟元素的 margin 折叠，但是折叠后的 margin 不能跟父元素的 bottom margin 折叠。</p>
+<p>-折叠后的Margin大小</p>
+<p>当两个或者两个以上的 margin 折叠后，margin 的值计算如下：
+1 如果 margin 都是正数，则取他们当中的最大值
+2 如果 margin 中有正有负，则取最大的正数加上最小的负数（如最大的 margin是 20px，最小的 margin 是 -20px，则他们计算后的值是 0）
+3 如果 margin 中都是负数，则取他们当中的最小值</p>
+<ul>
+<li>如何解决margin塌陷</li>
+</ul>
+<h5>例1：针对——&gt;“*   两个 margin 之间没有行盒（line box）、清除浮动后的空隙（<a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23clearance" target="_blank" rel="noopener">clearance</a>）、padding和边框”</h5>
+<p>如图所示：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-8bbff93b557f891f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+如果 #container 没有下边框，则 #container 的 bottom margin 和 #inner 的 bottom margin 是相邻的，因此它们折叠了，并且 #inner 撑开了 #container 元素，所以可以看到 #container 元素的高度变成了 10px，且显示的是 #inner 的红色背景
+我们通过增加padding的方式来阻止Margin的折叠：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-16af8f431f902e8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+当给 #container 添加一个下边框，两个 margin 之间就边框的阻隔，他们就不相邻了，因此不能折叠。所以可以看到 #container 被撑开成了 20px，其中 10px 是 #inner 的高度，还有 10px 是 #inner 的 bottom margin，并且由于 margin 是透明的，因此 #container 露出了部分蓝色的背景。</p>
+<h5>例2：针对——&gt;'*   margin 的两个元素都是正常流的块级元素，并且在同一个 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23block-formatting" target="_blank" rel="noopener">BFC</a> 中''</h5>
+<p>我们通过创建新的BFC来阻止Margin的折叠：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8542482-5878154dd7007952.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>如上图 #container 元素和 #inner 元素同属于一个 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23block-formatting" target="_blank" rel="noopener">BFC</a> 中，#container 的 top margin 和 #inner 的 top margin 折叠，bottom margin 同理。
+但如果让 #container 跟 #innter 处在不同的 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23block-formatting" target="_blank" rel="noopener">BFC</a> 中，则 top margin 和 bottom margin 都不会折叠，如：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-808ef00f2339f4e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+给 #container 元素增加一个 <code>overflow: hidden</code> 属性，让它的内容盒生成一个独立的 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23block-formatting" target="_blank" rel="noopener">BFC</a>，而 #inner 处于这个独立的 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23block-formatting" target="_blank" rel="noopener">BFC</a> 中，因此 #container 和 #inner 就处于两个不同的 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23block-formatting" target="_blank" rel="noopener">BFC</a> 中了，所以他们的 margin 不能折叠。</p>
+<h5>例3：针对——&gt;&quot;*   如果一个元素，它本身的 top margin 和 bottom margin 是<strong>相邻</strong>的，并且有清除浮动后的空隙（<a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.w3.org%2FTR%2FCSS2%2Fvisuren.html%23clearance" target="_blank" rel="noopener">clearance</a>），这个元素的 margin 可以跟兄弟元素的 margin 折叠，但是折叠后的 margin 不能跟父元素的 bottom margin 折叠&quot;</h5>
+<p><img src="http://upload-images.jianshu.io/upload_images/8542482-98b84b77a67775dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+给父元素 #container 设置了一个灰色背景，并且没有设置高度，因此高度会随着内容而扩展，margin 设置为 50px。
+其中有一个红色的浮动元素 #floated，高宽都设置为 40px。
+给 #cleared 设置了 15px 的 margin，并且元素的高度、padding、margin 都为0，因此 #cleared 元素的 top margin 和 bottom margin 是相邻的。这个元素的位置如下图所示：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-deeeb4d14f094a16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+因为 #cleared 元素清除了左浮动，所以 #cleared 元素下移。
+而 #cleared 元素和 #slibling 元素的 margin 折叠了，因此可以看到他们的位置是重叠的。
+<img src="http://upload-images.jianshu.io/upload_images/8542482-b8ff8e315d9a2e28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+由于这条规则的存在，导致他们折叠后的 margin 不能跟 #container 的 bottom margin 进行折叠，因此 #container 的高度被撑开。</p>
+<p>如果没有这条规则，他们还应该跟 #container 的 bottom margin 进行折叠，如：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-c0cb1715e617542e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image">
+以上这张图，在去掉了 #cleared 元素的 clear 属性之后，就不满足这条规则了，所以可以看到 #container 的高度就只有 40px，即红色的浮动元素的高度，而 #cleared 元素、#sibling 元素、#container 元素的 margin 都折叠成了一个。</p>
+<p><a href="http://www.jb51.net/css/362199.html" target="_blank" rel="noopener">参考源文</a>
+<a href="https://blog.csdn.net/weixin_35955795/article/details/70194764" target="_blank" rel="noopener">参照源</a>
+<a href="http://www.runoob.com/css3/css3-flexbox.html" target="_blank" rel="noopener">概念源文</a></p>
+<p>作者：知乎用户
+链接：https://www.zhihu.com/question/21504052/answer/50053054
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
       
     </div>
     <footer class="article-footer">
@@ -467,25 +1096,52 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="HTML5新增了哪些内容或API？使用过哪些？"><a href="#HTML5新增了哪些内容或API？使用过哪些？" class="headerlink" title=" HTML5新增了哪些内容或API？使用过哪些？"></a><center> HTML5新增了哪些内容或API？使用过哪些？</center></h3><ul>
-<li>document.querySelector()和document.querySelectorAll()方法<br>前者返回匹配到的元素或者null，后者返回元素数组或者空数组。</li>
-</ul>
+        <h3>&lt;center&gt; HTML5新增了哪些内容或API？使用过哪些？</h3>
 <ul>
-<li><p>classList属性，操作多个类很方便。</p>
+<li>
+<p>document.querySelector()和document.querySelectorAll()方法
+前者返回匹配到的元素或者null，后者返回元素数组或者空数组。</p>
 </li>
-<li><p>FullScreen API是一个新的JS API，方便用户的阅读或观看视频，很多网站实现了全屏功能。通过编程的方式来向用户请求全屏显示，如果交互完成，随时可以退出全屏状态。</p>
+<li>
+<p>classList属性，操作多个类很方便。</p>
+</li>
+<li>
+<p>FullScreen API是一个新的JS API，方便用户的阅读或观看视频，很多网站实现了全屏功能。通过编程的方式来向用户请求全屏显示，如果交互完成，随时可以退出全屏状态。</p>
 </li>
 </ul>
-        <!--  HTML5新增了哪些内容或API？使用过哪些？
-document.querySelector()和document.querySelectorAll()方法前者返回匹配到的元素或者null，后者返回元素数组或者空数组。
+<p>&lt;!-- more --&gt;<br>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">找到支持方法：</span><br><span class="line">function launchFullScreen(element) &#123;  </span><br><span class="line">  </span><br><span class="line">    var element=element||document.documentElement;  </span><br><span class="line">    alert(element.nodeName);  </span><br><span class="line">    if (element.requestFullscreen) &#123;  </span><br><span class="line">      element.requestFullscreen();  </span><br><span class="line">    &#125; else if (element.mozRequestFullScreen) &#123;  </span><br><span class="line">      element.mozRequestFullScreen();  </span><br><span class="line">    &#125; else if (element.webkitRequestFullscreen) &#123;  </span><br><span class="line">      element.webkitRequestFullscreen();  </span><br><span class="line">    &#125; else if (element.msRequestFullscreen) &#123;  </span><br><span class="line">      element.msRequestFullscreen();  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">//请注意: exitFullscreen 只能通过 document 对象调用 —— 而不是使用普通的 DOM element.  </span><br><span class="line">  function exitFullscreen() &#123;  </span><br><span class="line">    if (document.exitFullscreen) &#123;  </span><br><span class="line">      document.exitFullscreen();  </span><br><span class="line">    &#125; else if (document.mozExitFullScreen) &#123;  </span><br><span class="line">      document.mozExitFullScreen();  </span><br><span class="line">    &#125; else if (document.webkitExitFullscreen) &#123;  </span><br><span class="line">      document.webkitExitFullscreen();  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">element.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);//全屏状态允许键盘输入</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>
+<p>页面可见性 Page Visibility
+该属性指页面是处于显示状态还是隐藏状态，页面可见性对于网站的统计非常有用。</p>
+</li>
+<li>
+<p>预加载
+网站优化一直是项目开发中的重点之中，常见的优化方式主要有：图片懒加载，图片sprite，css合并，数据本地存储，数据网络缓存等。</p>
+<pre><code>   预加载是一种浏览器机制，利用浏览器空闲时间来预先下载/加载，用户接下来很可能浏览的页面/资源。页面提供给浏览器需要预加载的集合。浏览器载入当前页面完成后，将会在后台下载需要预加载的页面并添加到缓存中，当用户访问某个预加载的链接时，如果从缓存命中，页面就得以快速呈现。
+</code></pre>
+</li>
+<li>
+<p>二维绘图API，可以用在一个新的画布（Canvas）元素上以呈现图像、游戏图形或者其他运行中的可视图形。</p>
+</li>
+</ul>
+<h3>&lt;center&gt; 用一个div模拟textarea的实现</h3>
+<p>&lt;center&gt;标签定义一个多行的文本输入空间，但不能像div一样随着内容增加自动增加，一言不合出现滚动条。如下：
+&lt;center&gt;&lt;textarea&gt;你开心就好啦如果给我打赏我也就开心啦大家一起开心哦</p>
+<p>为了更好的交互，可以用div来实现textarea的功能：</p>
+<h5>内容可编辑属性  contenteditable</h5>
+<p>给div添加  contenteditable=true即可</p>
+<h5>demo</h5>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//css</span><br><span class="line">.textarea &#123;</span><br><span class="line">  height: 200px;</span><br><span class="line">  width: 300px;</span><br><span class="line">  padding: 4px;</span><br><span class="line">  border: 1px solid #888;</span><br><span class="line">  resize: vertical;</span><br><span class="line">  overflow: auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.textarea:empty:before &#123;</span><br><span class="line">  content: attr(placeholder);</span><br><span class="line">  color: #bbb;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//html</span><br><span class="line">&lt;div class=&quot;textarea&quot; contenteditable=&quot;true&quot; placeholder=&quot;This is placeholder&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>效果如下：
+<img src="http://upload-images.jianshu.io/upload_images/8542482-97fef9b1f7c132b5?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h3>&lt;center&gt; 行级元素和块级元素的特点和转换方式：</h3>
+<p>&lt;center&gt;点击蓝色字体跳入我的另一篇文章，那里有详细的解释。
+&lt;center&gt;<a href="https://www.jianshu.com/p/f937db28b007" target="_blank" rel="noopener">行级块级元素特点以及转换方式</a></p>
+<h3>&lt;center&gt; position的类型和特点：</h3>
+<p><img src="https://upload-images.jianshu.io/upload_images/8542482-1218d25767a8ede5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="position.png"></p>
 
-
-classList属性，操作多个类很方便。
-
-FullScreen API是一个新的JS API，方便用户的阅读或观看视频，很多网站实现了全屏功能。通过编程的方式来向用......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/08/HTML5/#more">Read More</a>
-        </p>
       
     </div>
     <footer class="article-footer">
@@ -527,19 +1183,23 @@ FullScreen API是一个新的JS API，方便用户的阅读或观看视频，很
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><center>如图所示，我利用微信开发者工具做了一个简单的画板。</center></p>
+        <p>&lt;center&gt;如图所示，我利用微信开发者工具做了一个简单的画板。</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/8542482-a56593fdb8966045.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
 <p>该画板实现了基本的功能有：画线，橡皮擦，文本输入，油漆桶，清除，保存作品。H5方法用到的较多，微信给的API其实用到的比较少。另外还用到了# <a href="http://www.cnblogs.com/DF-fzh/p/5979093.html" target="_blank" rel="noopener">mustache语法</a>，这个语法是我在写程序中才学到的一个方法。</p>
-<p>   接下来我阐述一下我遇到的问题：</p>
-<p>一、是在鼠标点击canvas时Input框来辅助完成文本输入的方法。<br>
-        <!-- 如图所示，我利用微信开发者工具做了一个简单的画板。
+<p>接下来我阐述一下我遇到的问题：
+&lt;!-- more --&gt;
+一、是在鼠标点击canvas时Input框来辅助完成文本输入的方法。</p>
+<p>在html里，canvas标签嵌套一个input标签（type=&quot;text&quot;），input框的display的值为''，注：这里用到了# <a href="http://www.cnblogs.com/DF-fzh/p/5979093.html" target="_blank" rel="noopener">mustache语法</a>。首先需要在</p>
+<pre><code>Page{data:&quot;display&quot;:&quot;none&quot;}，
+</code></pre>
+<p>开始设置display为none值是为了触摸后使文本框显示，这样还可以直接在css样式中修改的值。</p>
+<p>接下来在canvas的touch..上绑定一个事件，当你使用文本功能时，触摸屏幕会触发该绑定事件的函数执行，在这个函数体中修改display的值，格式如下：this.setData({ &quot;display&quot;:&quot;block&quot; })。这样原本隐藏的input框就可以显示了。</p>
+<p>二、画线问题</p>
+<p>在画线时，我们需要借助一个变量去记录上一个触摸点的位置，姑且称为oldPoint。该点存储在data里。每次画线时先判断oldPoint是否为空，如果为空，就把第一个触摸点记录；如果不为空，就先moveTo(oldPoint)，之后lineTo(oldPoint)，连好后再更新oldPoint。注意，ctx.draw()这个方法的默认参数是false，如果不写true，每次都会重画，无法保存之前画过的内容。</p>
+<p>三、其他小问题
+在变颜色的时候，我没有注意setFillColor和setStrokeColor的区别..我以为都是变色的，后来发现一个是变填充颜色的，一个是变线条颜色的。</p>
+<p><code>有问题评论区留言，博主会耐心回复的~</code></p>
 
-该画板实现了基本的功能有：画线，橡皮擦，文本输入，油漆桶，清除，保存作品。H5方法用到的较多，微信给的API其实用到的比较少。另外还用到了# mustache语法，这个语法是我在写程序中才学到的一个方法。
-   接下来我阐述一下我遇到的问题：
-一、是在鼠标点击canvas时Input框来辅助完成文本输入的方法。  在html里，canva......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/08/制作一个简易画板/#more">Read More</a>
-        </p>
       
     </div>
     <footer class="article-footer">
@@ -581,7 +1241,7 @@ FullScreen API是一个新的JS API，方便用户的阅读或观看视频，很
           </span>
         </div>
         <div class="powered-by">
-        </i><span ion-stop-event="busuanzi_container_site_pv">
+        </i class="fa fa-user-md"><span ion-stop-event="busuanzi_container_site_pv">
           本站点击数：<span id="busuanzi_value_site_pv"></span>
       
         </span>
