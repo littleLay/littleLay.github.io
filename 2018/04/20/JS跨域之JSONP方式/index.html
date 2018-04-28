@@ -9,19 +9,19 @@
   
   
   
-  <meta name="description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。一">
+  <meta name="description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS跨域之JSONP方式">
 <meta property="og:url" content="http://yoursite.com/2018/04/20/JS跨域之JSONP方式/index.html">
 <meta property="og:site_name" content="送你回家">
-<meta property="og:description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。一">
+<meta property="og:description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-636780d70a19dd22?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-04-26T07:58:28.277Z">
+<meta property="og:updated_time" content="2018-04-28T04:24:30.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS跨域之JSONP方式">
-<meta name="twitter:description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。一">
+<meta name="twitter:description" content="本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~  同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternate" href="/atom.xml" title="送你回家" type="application/atom+xml">
@@ -197,7 +197,7 @@
       
         <p><img src="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/16 晴天"></p>
 <p><center>本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~</center></p>
-<h4 id="同源策略"><a href="#同源策略" class="headerlink" title=" 同源策略"></a><center> 同源策略</center></h4><p>要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。<br>一些常见的是否同源示例可参照下表：<br><img src="http://upload-images.jianshu.io/upload_images/8542482-636780d70a19dd22?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h4 id="同源策略"><a href="#同源策略" class="headerlink" title=" 同源策略"></a><center> 同源策略</center></h4><p>要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东西。<br><a id="more"></a><br>一些常见的是否同源示例可参照下表：<br><img src="http://upload-images.jianshu.io/upload_images/8542482-636780d70a19dd22?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>在同源策略下，在某个服务器下的页面是无法获取到该服务器以外的数据的。例如我们在自己的网站通过ajax去获取豆瓣提供的接口数据。即使是访问本地非JS文件的文件（比如.json文件）.</p>
 <p><strong><em>不过火狐可以正常读取到</em></strong>，原因是：虽然允许跨域很不安全，但是如果不跨域的话又带来很多不便，所以火狐是允许跨域的。</p>
 <p>为什么<strong><em>谷歌获取不到？</em></strong></p>

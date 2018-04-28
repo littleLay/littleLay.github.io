@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-62fa73ee3afc69cf?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-8cc5795fed1e4d8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8542482-42aad8702ce073e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-04-26T06:48:39.902Z">
+<meta property="og:updated_time" content="2018-04-28T04:24:21.329Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS知识点（持续扩展）">
 <meta name="twitter:description" content="图片懒加载引用源文 - 什么叫图片懒加载？当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。 - 为什么要使用这个技术？如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头">
@@ -201,7 +201,7 @@
         <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=4dfad5bbd31373f0f53f6f97940d4b8b/4beffffe9925bc31c0d94c585cdf8db1ca137000.jpg" alt="2018/4/18 晴天"></p>
 <h3 id="图片懒加载"><a href="#图片懒加载" class="headerlink" title=" 图片懒加载"></a><center> 图片懒加载</center></h3><p><center><a href="https://www.cnblogs.com/flyromance/p/5042187.html" target="_blank" rel="noopener">引用源文</a></center></p>
 <h5 id="什么叫图片懒加载？"><a href="#什么叫图片懒加载？" class="headerlink" title="- 什么叫图片懒加载？"></a>- 什么叫图片懒加载？</h5><p>当访问一个页面的时候，先把img元素或是其他元素的背景图路径替换成一张大小为1*1px图片的路径（这样就只需请求一次），只有当图片出现在浏览器的可视区域内，才设置图片真正的路径，让图片显示出来，这就是图片懒加载。</p>
-<h5 id="为什么要使用这个技术？"><a href="#为什么要使用这个技术？" class="headerlink" title="- 为什么要使用这个技术？"></a>- 为什么要使用这个技术？</h5><p>如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头部又依赖这个js文件，那就凉凉了；最重要的是，这么多的请求，服务器可能会吃不消。</p>
+<h5 id="为什么要使用这个技术？"><a href="#为什么要使用这个技术？" class="headerlink" title="- 为什么要使用这个技术？"></a>- 为什么要使用这个技术？</h5><p>如果一个页面中有很多图片，一上来就发送那么多请求，页面加载就会很漫长。如果js文件都放在了文档的底部，恰巧页面的头部又依赖这个js文件，那就凉凉了；最重要的是，这么多的请求，服务器可能会吃不消。<br><a id="more"></a></p>
 <h5 id="怎么实现？"><a href="#怎么实现？" class="headerlink" title="- 怎么实现？"></a>- 怎么实现？</h5><ul>
 <li>页面中的ig元素，如果没有src属性，浏览器就不会发出请求去下载图片，一旦通过js设置了图片路径，浏览器才会发送请求。（有点按需分配的意思）</li>
 <li>把真正的路径存在元素的“data-url”（自己取个名字）属性里，要用的时候就取出来，再设置。</li>

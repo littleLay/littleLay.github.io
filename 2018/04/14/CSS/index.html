@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-deeeb4d14f094a16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-b8ff8e315d9a2e28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/8542482-c0cb1715e617542e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-04-26T07:03:38.039Z">
+<meta property="og:updated_time" content="2018-04-28T04:23:29.638Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS知识点">
 <meta name="twitter:description" content="左右布局：不少于三种方法圣杯布局和双飞翼布局解决的问题是一样的，就是两边顶宽，中间自适应的三栏布局，中间栏要在放在文档流前面以优先渲染。 圣杯布局和双飞翼布局解决问题的方案在前一半是相同的，也就是三栏全部float浮动，但左右两栏加上负margin让其跟中间栏div并排，以形成三栏布局。 不同在于解决”中间栏div内容不被遮挡“问题的思路不一样： 圣杯布局，为了中间div内容不被遮挡，将中间d">
@@ -212,7 +212,7 @@
 <p>圣杯布局和双飞翼布局解决问题的方案在前一半是相同的，也就是三栏全部float浮动，但左右两栏加上负margin让其跟中间栏div并排，以形成三栏布局。</p>
 <p>不同在于解决”中间栏div内容不被遮挡“问题的思路不一样：</p>
 <p>圣杯布局，为了中间div内容不被遮挡，将中间div设置了左右padding-left和padding-right后，将左右两个div用相对布局position: relative并分别配合right和left属性，以便左右两栏div移动后不遮挡中间div。</p>
-<p>双飞翼布局，为了中间div内容不被遮挡，直接在中间div内部创建子div用于放置内容，在该子div里用margin-left和margin-right为左右两栏div留出位置。</p>
+<p>双飞翼布局，为了中间div内容不被遮挡，直接在中间div内部创建子div用于放置内容，在该子div里用margin-left和margin-right为左右两栏div留出位置。<br><a id="more"></a></p>
 <h5 id="圣杯模型"><a href="#圣杯模型" class="headerlink" title=" 圣杯模型"></a><center> 圣杯模型</center></h5><p><center>两栏和自适应元素都设置同一方向的浮动(如float: left)</center></p>
 <p><center>父元素设置左右padding为左右边栏的宽度。</center></p>
 <p><center>自适应元素设置宽度为100%</center></p>
