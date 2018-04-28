@@ -310,10 +310,9 @@
 filter:blur(2px) 是实现背景模糊的主要属性，下面来讲述filter实现三种效果的方法。
 &lt;center&gt;
 blur里的参数是设定高斯函数的标准差，或者说是屏幕上以多少像素融在一起，所以值越大，越模糊。</p>
-<h3>&lt;center&gt; 普通背景模糊</h3>
+<h3>&lt;center&gt;普通背景模糊</h3>
 <p>&lt;center&gt;filter属性会使整个div的后代模糊并且还会出现白边，如果想让div里的子元素不模糊，<strong><em>怎么办呢？</em></strong>
-&lt;center&gt;可以使用伪元素，既解决了模糊问题，也解决了白边问题。
-&lt;!-- more --&gt;</p>
+&lt;center&gt;可以使用伪元素，既解决了模糊问题，也解决了白边问题。</p>
 <ul>
 <li>
 <p>实现思路：
