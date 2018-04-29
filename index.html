@@ -278,6 +278,89 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-关于jQuery的CSS-原理"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/04/29/关于jQuery的CSS-原理/">关于jQuery的CSS()原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/04/29/关于jQuery的CSS-原理/" class="article-date">
+	  <time datetime="2018-04-29T07:50:23.000Z" itemprop="datePublished">2018-04-29</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=0190f0864b540923aa696376a259d1dc/e15ef4f81a4c510f55d8ecbf6259252dd42aa515.jpg" alt="2018/4/29"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我们都知道在操作DOM元素的CSS样式时，使用jQuery可以很容易地对CSS元素进行操作。其中jQuery的CSS方法，其底层运作就应用了getComputedStyle和getPropertyValue的方法。</span><br></pre></td></tr></table></figure>
+<p>下面进入正题，开始一步步分析。</p>
+<h3 id="jQuery获取CSS样式"><a href="#jQuery获取CSS样式" class="headerlink" title=" jQuery获取CSS样式"></a><center> jQuery获取CSS样式</center></h3><p>jQuery对CSS的操作有很多，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">addClass()-向被选元素添加一个或多个类</span><br><span class="line">removeClass()-从被选元素删除一个或多个类</span><br><span class="line">toggleClass()-对被选元素进行添加/删除类的切换操作</span><br><span class="line">css()-设置或返回样式属性</span><br></pre></td></tr></table></figure></p>
+<h3 id="getComputedStyle-的定义"><a href="#getComputedStyle-的定义" class="headerlink" title=" getComputedStyle()的定义"></a><center> getComputedStyle()的定义</center></h3><p>getComputedStyle()是一个可以获取当前元素所有最终使用的CSS属性值，返回的是一个CSS样式声明对象([object CSSStyleDeclaration])，只读不可写。</p>
+<p>语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var style = window.getComputedStyle(&quot;元素&quot;,&quot;伪类&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>该方法只有两个参数，第一个参数是所选的元素，第二个参数“伪类”不是必需的（如果不是伪类，设置为null）。</p>
+<h4 id="getComputedStyle-与style"><a href="#getComputedStyle-与style" class="headerlink" title=" getComputedStyle()与style()"></a><center> getComputedStyle()与style()</center></h4><p>在使用element.style来获取元素的CSS样式声明对象时，与getComputedStyle()的结果还是有差异的，差异如下：</p>
+<ul>
+<li><p>只读与可写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">之前说过getComputedStyle()是只读的，只能获取样式，不能设置；而element.style能读也能写~</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取的对象范围</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">之前也说过getComputedStyle()获取的是最终应用在元素上的所有CSS属性对象（即使没有CSS代码，也会把默认的都显示出来），而element.style只能获取元素的style属性中的CSS样式。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="getComputedStyle-与defaultView"><a href="#getComputedStyle-与defaultView" class="headerlink" title=" getComputedStyle()与defaultView()"></a><center> getComputedStyle()与defaultView()</center></h4><p>如果我们查看jQuery源码，会发现css()实现使用的不是window.getComputedStyle()，而是document.defaultView.getComputedStyle()。<br>实际上，使用defaultView基本上是没必要的，getComputedStyle()本省就存在window对象之中。但是根据一种说法，使用defaultView是不愿意在window上专门写方法，或者是让API在JAVA中也可以用。</p>
+<h4 id="getComputedStyle-与currentStyle"><a href="#getComputedStyle-与currentStyle" class="headerlink" title=" getComputedStyle()与currentStyle()"></a><center> getComputedStyle()与currentStyle()</center></h4><p>element.currentStyle()返回的是元素当前应用的最终CSS属性值(包括外链CSS文件，页面中嵌入的style属性等)<br>从作用上说，getComputedStyle与currentStyle属性走的很近，形式上则style与currentStyle走的近，不过currentStyle不支持伪类样式的获取，这是与getComputeStyle方法的差异，也是jQuery css()无法体现的一点。<br>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alert((element.currentStyle? element.currentStyle : window.getComputedStyle(element, null)).height);</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码在firefox下显示24px，在IE浏览器下则是CSS中的2em属性值。<br>这两个方法其他具体差异还有很多~之后补充。</p>
+<h3 id="getPropertyValue-的定义"><a href="#getPropertyValue-的定义" class="headerlink" title=" getPropertyValue()的定义"></a><center> getPropertyValue()的定义</center></h3><ul>
+<li>getPropertyValue()可以获取CSS样式的属性值，如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.getComputeStyle(element,null).getPropertyValue(&quot;float&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>不使用getPropertyValue方法，直接使用键值访问，也可以得到属性值，但是，比如这里的float，如果用键值访问，则不能直接使用getComputedStyle(element,null).float，而应该是cssfloat和stylefloat，自然需要浏览器判断了，比较折腾~</p>
+<ul>
+<li><p>使getPropertyValue方法不支持驼峰写法，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">style.getPropertyValue(&quot;border-top-left-radius&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>getPropertyValue()方法IE9+以及现代浏览器都支持</p>
+</li>
+</ul>
+<p>一涉及到兼容性就… 那IE8以下怎么办呢？<br>这时候就不得不提到 getAttribute()</p>
+<h4 id="getPropertyValue-和getAttribute-的区别"><a href="#getPropertyValue-和getAttribute-的区别" class="headerlink" title=" getPropertyValue()和getAttribute()的区别"></a><center> getPropertyValue()和getAttribute()的区别</center></h4><p>在老IE浏览器中，getAttribute()提供了与getPropertyValue()类似的功能，可以访问CSS样式对象的属性，用法和getPropertyValue()类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">style.getAttribute(&quot;float&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>注意！使用getAttribute()也不需要cssfloat与stylefloat的怪异写法和兼容性处理，但是属性名需要驼峰写法，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">style.getAttribute(&quot;backgroundColor&quot;);</span><br></pre></td></tr></table></figure></p>
+<h4 id="getPropertyValue-和getPropertyCSSValue-的区别"><a href="#getPropertyValue-和getPropertyCSSValue-的区别" class="headerlink" title=" getPropertyValue()和getPropertyCSSValue()的区别"></a><center> getPropertyValue()和getPropertyCSSValue()的区别</center></h4><ul>
+<li><p>getPropertyCSSValue()返回的是一个CSS最初值对象或CSS值列表对象，这取决于style属性值的类型。在某些特别的style属性下，其返回的是自定义对象。该自定义对象继承于CSSValue对象</p>
+</li>
+<li><p>getPropertyCSSValue()的兼容性不好，IE9不支持，Opera也不支持。</p>
+</li>
+</ul>
+<p><a href="http://www.zhangxinxu.com/wordpress/2012/05/getcomputedstyle-js-getpropertyvalue-currentstyle/" target="_blank" rel="noopener">资料来源1</a><br><a href="http://www.w3school.com.cn/jquery/jquery_css_classes.asp" target="_blank" rel="noopener">资料来源2</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-盒模型"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -314,12 +397,12 @@
 <p><center>Border(边框):围绕在内边距和内容外的边框</center></p>
 <p><center>Padding(内边距):清除内容周围的区域，内边距是透明的</center></p>
 <p><center>Content(内容):盒子的内容，显示文本和图像</center></p>
-<h3 id="标准-W3C-盒模型的计算公式"><a href="#标准-W3C-盒模型的计算公式" class="headerlink" title=" 标准(W3C)盒模型的计算公式"></a><center> 标准(W3C)盒模型的计算公式</center></h3><p>当你制定一个CSS元素的宽度和高度属性时，你只是设置了内容区域的宽度和高度。</p>
+<h3 id="标准-W3C-盒模型的计算公式"><a href="#标准-W3C-盒模型的计算公式" class="headerlink" title=" 标准(W3C)盒模型的计算公式"></a><center> 标准(W3C)盒模型的计算公式</center></h3><p><center>当你制定一个CSS元素的宽度和高度属性时，你只是设置了内容区域的宽度和高度。</center></p>
 <p><center>标准盒模型的计算公式：</center></p>
-<h4 id="hight-width-height-width-2margin-2border-2-padding"><a href="#hight-width-height-width-2margin-2border-2-padding" class="headerlink" title=" hight/width=height/width+2margin+2border+2*padding"></a><center> hight/width=height/width+2<em>margin+2</em>border+2*padding</center></h4><h3 id="怪异-IE-盒模型的计算公式"><a href="#怪异-IE-盒模型的计算公式" class="headerlink" title=" 怪异(IE)盒模型的计算公式"></a><center> 怪异(IE)盒模型的计算公式</center></h3><p>怪异盒模型的content包括padding和border，如果padding和border任意一个值增大，则内容区缩小。</p>
-<p>怪异盒模型可以在IE5和IE6中呈现。</p>
+<h4 id="hight-width-height-width-2margin-2border-2-padding"><a href="#hight-width-height-width-2margin-2border-2-padding" class="headerlink" title=" hight/width=height/width+2margin+2border+2*padding"></a><center> hight/width=height/width+2<em>margin+2</em>border+2*padding</center></h4><h3 id="怪异-IE-盒模型的计算公式"><a href="#怪异-IE-盒模型的计算公式" class="headerlink" title=" 怪异(IE)盒模型的计算公式"></a><center> 怪异(IE)盒模型的计算公式</center></h3><p><center>怪异盒模型的content包括padding和border，如果padding和border任意一个值增大，则内容区缩小。</center></p>
+<p><center>怪异盒模型可以在IE5和IE6中呈现。</center></p>
 <h3 id="两种模式的共同点"><a href="#两种模式的共同点" class="headerlink" title=" 两种模式的共同点"></a><center> 两种模式的共同点</center></h3><p><center>盒模型的组成相同<br>margin值都是单独计算，在怪异盒模型的content里也不包括margin。</center></p>
-<h3 id="解决方法和转换手段"><a href="#解决方法和转换手段" class="headerlink" title=" 解决方法和转换手段"></a><center> 解决方法和转换手段</center></h3><p>解决IE8及更早版本不兼容问题可以在HTML页面声明&lt;!DOCTYPE html&gt;即可</p>
+<h3 id="解决方法和转换手段"><a href="#解决方法和转换手段" class="headerlink" title=" 解决方法和转换手段"></a><center> 解决方法和转换手段</center></h3><p><center>解决IE8及更早版本不兼容问题可以在HTML页面声明&lt;!DOCTYPE html&gt;即可</center></p>
 <p>当一个元素的属性设置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">box-sizing:content-box;</span><br></pre></td></tr></table></figure></p>
 <p>将采用<strong><em>标准模型</em></strong>解析计算，也是默认模式。</p>
 <p>当一个元素的属性设置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">box-sizing:border-box</span><br></pre></td></tr></table></figure></p>
@@ -489,55 +572,6 @@
 Qu......  -->
         <p class="article-more-link">
           <a href="/2018/04/25/hello-world/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
-    <article id="post-JS跨域之JSONP方式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/20/JS跨域之JSONP方式/">JS跨域之JSONP方式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/04/20/JS跨域之JSONP方式/" class="article-date">
-	  <time datetime="2018-04-19T16:00:00.000Z" itemprop="datePublished">2018-04-20</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JS/">JS</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/16 晴天"></p>
-<p><center>本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~<br>
-        <!-- 
-本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~
- 同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/20/JS跨域之JSONP方式/#more">Read More</a>
         </p>
       
     </div>
