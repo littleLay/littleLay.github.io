@@ -278,6 +278,145 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-盒模型"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/04/29/盒模型/">盒模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/04/29/盒模型/" class="article-date">
+	  <time datetime="2018-04-29T04:52:20.509Z" itemprop="datePublished">2018-04-29</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=195abefb2a381f309e198da199004c67/b71aa5a1cd11728bc06500e1cafcc3cec2fd2c47.jpg" alt="2018/4/23  多云温暖大风"></p>
+<h3 id="CSS盒子模型类型："><a href="#CSS盒子模型类型：" class="headerlink" title=" CSS盒子模型类型："></a><center> CSS盒子模型类型：</center></h3><p><center> 标准盒模型</center></p>
+<p><center> 怪异（Ie）盒模型</center></p>
+<h3 id="CSS盒子模型概念"><a href="#CSS盒子模型概念" class="headerlink" title=" CSS盒子模型概念"></a><center> CSS盒子模型概念</center></h3><p>CSS盒模型本质上是一个盒子，封装周围的HTML元素，它包括：边距，边框，填充和实际内容。盒模型允许我们在其它元素和周围元素边框之间的空间放置元素。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><center></center></h2><table>
+<thead>
+<tr>
+<th>Margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Border</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>——————–</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Padding</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>————</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>content</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>————</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>——————–</td>
+<td></td>
+</tr>
+<tr>
+<td>—————————-</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Margin(外边距):清除边框外的区域，外边距是透明的<br>Border(边框):围绕在内边距和内容外的边框<br>Padding(内边距):清除内容周围的区域，内边距是透明的<br>Content(内容):盒子的内容，显示文本和图像</p>
+<h3 id="标准-W3C-盒模型的计算公式"><a href="#标准-W3C-盒模型的计算公式" class="headerlink" title=" 标准(W3C)盒模型的计算公式"></a><center> 标准(W3C)盒模型的计算公式</center></h3><p>当你制定一个CSS元素的宽度和高度属性时，你只是设置了内容区域的宽度和高度，要知道，完全大小的元素，你还必须添加填充、边框和边距。<br>公式如下~</p>
+<h4 id="hight-width-height-width-2margin-2border-2-padding"><a href="#hight-width-height-width-2margin-2border-2-padding" class="headerlink" title=" hight/width=height/width+2margin+2border+2*padding"></a><center> hight/width=height/width+2<em>margin+2</em>border+2*padding</center></h4><h3 id="怪异-IE-盒模型的计算公式"><a href="#怪异-IE-盒模型的计算公式" class="headerlink" title=" 怪异(IE)盒模型的计算公式"></a><center> 怪异(IE)盒模型的计算公式</center></h3><p>怪异盒模型的内容区包括了padding和border，如果padding和border其中任意一个的值增大，则内容区缩小，</p>
+<p>怪异盒模型可以在Ie5和Ie6中呈现。</p>
+<h3 id="两种模式的共同点"><a href="#两种模式的共同点" class="headerlink" title=" 两种模式的共同点"></a><center> 两种模式的共同点</center></h3><p>盒模型的组成相同<br>margin值都是单独计算，在怪异盒模型的content里也不包括margin。</p>
+<h3 id="解决方法和转换手段"><a href="#解决方法和转换手段" class="headerlink" title=" 解决方法和转换手段"></a><center> 解决方法和转换手段</center></h3><p>解决IE8及更早版本不兼容问题可以在HTML页面声明&lt;!DOCTYPE html&gt;即可</p>
+<p>当一个元素的属性设置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">box-sizing:content-box;</span><br></pre></td></tr></table></figure></p>
+<p>将采用<strong><em>标准模型</em></strong>解析计算，也是默认模式。</p>
+<p>当一个元素的属性设置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">box-sizing:border-box</span><br></pre></td></tr></table></figure></p>
+<p>将采用<strong><em>怪异模式</em></strong>解析计算。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
     <article id="post-filter()实现模糊的三种方式"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -443,55 +582,6 @@ Qu......  -->
 <!-- Table of Contents -->
 
   
-    <article id="post-JS跨域之JSONP方式"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/20/JS跨域之JSONP方式/">JS跨域之JSONP方式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/04/20/JS跨域之JSONP方式/" class="article-date">
-	  <time datetime="2018-04-19T16:00:00.000Z" itemprop="datePublished">2018-04-20</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/JS/">JS</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://upload-images.jianshu.io/upload_images/8542482-43a51144a9e6251f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2018/4/16 晴天"></p>
-<p><center>本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~<br>
-        <!-- 
-本人小白一枚，网上关于jsonp跨域的博文和回答实在是太多了，看到好多种？？jsonp的方式，并没有一一去尝试，可能原理都相同吧，还没有做深入了解，只是先记录一下我所掌握的jsonp解决跨域的方法，希望和我一样看的头晕眼花的小伙伴能有所收获~
- 同源策略要理解跨域，先要了解“同源策略”，所谓同源是指，域名，协议，端口相同。所谓“同源策略”，简单的说就是基于安全考虑，当前域不能访问其他域的东......  -->
-        <p class="article-more-link">
-          <a href="/2018/04/20/JS跨域之JSONP方式/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-  
     <article id="post-堆和栈的区别（待补充）"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -548,7 +638,7 @@ Qu......  -->
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
