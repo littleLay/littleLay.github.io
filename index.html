@@ -286,7 +286,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/04/29/关于jQuery的CSS-原理/">关于jQuery的CSS()原理</a>
+      <a class="article-title" href="/2018/04/29/关于jQuery的CSS-原理/">关于jQuery的CSS原理</a>
     </h1>
   
 
@@ -304,7 +304,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://imgsa.baidu.com/forum/w%3D580/sign=0190f0864b540923aa696376a259d1dc/e15ef4f81a4c510f55d8ecbf6259252dd42aa515.jpg" alt="2018/4/29"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我们都知道在操作DOM元素的CSS样式时，使用jQuery可以很容易地对CSS元素进行操作。其中jQuery的CSS方法，其底层运作就应用了getComputedStyle和getPropertyValue的方法。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">我们都知道在操作DOM元素的CSS样式时，使用jQuery可以很容易地对CSS元素进行操作。</span><br><span class="line">其中jQuery的CSS方法，其底层运作就应用了getComputedStyle和getPropertyValue的方法。</span><br></pre></td></tr></table></figure>
 <p>下面进入正题，开始一步步分析。</p>
 <h3 id="jQuery获取CSS样式"><a href="#jQuery获取CSS样式" class="headerlink" title=" jQuery获取CSS样式"></a><center> jQuery获取CSS样式</center></h3><p>jQuery对CSS的操作有很多，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">addClass()-向被选元素添加一个或多个类</span><br><span class="line">removeClass()-从被选元素删除一个或多个类</span><br><span class="line">toggleClass()-对被选元素进行添加/删除类的切换操作</span><br><span class="line">css()-设置或返回样式属性</span><br></pre></td></tr></table></figure></p>
 <h3 id="getComputedStyle-的定义"><a href="#getComputedStyle-的定义" class="headerlink" title=" getComputedStyle()的定义"></a><center> getComputedStyle()的定义</center></h3><p>getComputedStyle()是一个可以获取当前元素所有最终使用的CSS属性值，返回的是一个CSS样式声明对象([object CSSStyleDeclaration])，只读不可写。</p>
